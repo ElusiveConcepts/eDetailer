@@ -1,0 +1,183 @@
+/**
+ * Framework Specific Styles
+ *
+ * These styles are used for the functionality of the framework and should
+ * not be modified. If necessary, override these styles in uiskin.css or
+ * slides.css.
+ */
+body
+{
+	position: relative;
+	width: 1024px;
+	height: 768px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+#container
+{
+	position: relative;
+	width: 1024px;
+	height: 768px;
+	overflow: hidden;
+	z-index: 0;
+}
+
+#navbutton
+{
+
+
+}
+
+#navigation
+{
+	position: absolute;
+	top: 0px;
+	left: -200px;
+	width: 200px;
+	height: 614px;
+	z-index: 900;
+	-webkit-transition: left 0.5s;
+	transition: left 0.5s;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+
+#navigation.open { left: 0px; }
+
+#toc
+{
+	display: none;
+}
+
+#lightbox
+{
+	display: none;
+	position: absolute;
+	top: 0px; left: 0px;
+	width: 1024px;
+	height: 768px;
+	opacity: 0;
+	-webkit-transition: opacity 1s;
+	transition: opacity 1s;
+	z-index: 999;
+	pointer-events: none;
+}
+
+#lightbox *
+{
+	pointer-events: all;
+}
+
+#lightbox.active
+{
+	display: block;
+	opacity: 1;
+}
+
+#lb_overlay
+{
+	position: absolute;
+	top: 0px; left: 0px;
+	width: 1024px;
+	height: 768px;
+	background: rgba(0,0,0,0.7);
+}
+
+#screens
+{
+	position: relative;
+	z-index: 0;
+}
+
+.SCREEN
+{
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 768px;
+	overflow: hidden;
+	opacity: 1;
+	z-index: 0;
+
+	-webkit-transform: translate3d(0, 0, 0);
+
+	-webkit-transition-property: top, left, right, bottom, opacity;
+	transition-property: top, left, right, bottom, opacity;
+
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+}
+.SCREEN.hidden  { display: none; }
+.SCREEN.active  { z-index: 1; }
+.SCREEN.loading { -webkit-transition: none; transition: none; }
+
+/*==[ SLIDE TRANSITIONS ]==*/
+.SCREEN.L2R.loading  { top:    0px; left: -1024px; }
+.SCREEN.R2L.loading  { top:    0px; left:  1024px; }
+.SCREEN.T2B.loading  { top: -768px; left:     0px; }
+.SCREEN.B2T.loading  { top:  768px; left:     0px; }
+.SCREEN.FADE.loading { opacity: 0; }
+
+
+/*==[ DEBUG CONSOLE ]==*/
+#debug { display: none; }
+
+.debug #debug
+{
+	display: block;
+	position: absolute;
+	top: -520px;
+	right: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 520px;
+	-webkit-transition: top 0.5s;
+	z-index: 10000;
+}
+
+.debug #debug.open { top: 0px; }
+
+.debug #console
+{
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	width: 1004px;
+	height: 500px;
+	padding: 10px;
+	background: rgba(0,0,0,0.8);
+	font: 10px/1.2 monospace;
+	color: #0F0;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	-webkit-transition: top 0.5s;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+
+.debug #console_tab
+{
+	display: block;
+	content: "DEBUG CONSOLE";
+	position: absolute;
+	top: 520px;
+	left: 437px;
+	width: 150px;
+	height: 30px;
+	color: #0F0;
+	text-align: center;
+	line-height: 30px;
+	background-color: rgba(0,0,0,0.8);
+	border-radius: 0px 0px 10px 10px;
+}
+
+.debug #console.open
+{
+	top: 0px;
+}

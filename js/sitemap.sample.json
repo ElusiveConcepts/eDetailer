@@ -1,0 +1,138 @@
+/**
+ * This file describes the structure of the sitemap.json file.
+ * You may use this as a starting point in creating your own sitemap.json
+ * file, but remember to remove all comments. Please note, the sitemap.json
+ * file must be VALID JSON, or else the framework will choke,
+ */
+
+/**
+ * The containing object holds a single member labeled "sitemap".
+ * The sitemap object contains three child members.
+ *
+ * @property {object} sitemap
+ *    Contains sitemap data
+ * @property {array} sitemap.pages
+ *   Array of page objects (see FW.PAGE)
+ * @property {array} sitemap.buttonbar
+ *   Array of button objects (same as pages)
+ * @property {object} sitemap.paths
+ *   Collection of named arrays containing swipe path data
+ */
+
+{"sitemap" : {
+
+	/**
+	 * The "pages" array contains any number of nested page objects,
+	 * each of which has the following properties (see FW.PAGE):
+	 *
+	 * @property {string} id
+	 *   - ID used to reference the page (also used for tracking)
+	 * @property {string} title
+	 *   - Title of the page (used in navigation and tracking)
+	 * @property {String} type
+	 *   - Type of page/sitemap entry [page, hidden, header, button]
+	 *        page : Normal page/slide, appears in all menus
+	 *        hidden : normal page/slide, but does not appear in menus
+	 *        header : Accordian or Section header, appears in most menus
+	 *        button : Appears in some menus, file content is placed in HREF
+	 * @property {string} [file]
+	 *   - Path and filename of the source code for the page, or HREF
+	 *     content in the case of buttons
+	 * @property {array} [children]
+	 *   - An array of child (nested) page objects, no depth limit
+	 */
+
+	"pages" : [
+		{
+			"id"    : "splash",
+			"file"  : "slides/splash.html",
+			"title" : "Splash Page",
+			"type"  : "hidden"
+		},
+		{
+			"id"       : "header.0.0.0",
+			"file"     : "",
+			"title"    : "Section Header",
+			"type"     : "header",
+			"children" : [
+				{
+					"id"    : "slide.0.0.0",
+					"file"  : "slides/slide.0.0.0.html",
+					"title" : "Slide Title",
+					"type"  : "page"
+				}
+			]
+		}
+	],
+
+	/**
+	 * The "buttonbar" array contains any number of button objects,
+	 * each of which has the following properties (see FW.PAGE):
+	 *
+	 * @property {string} id
+	 *   - ID used to reference the button
+	 * @property {string} title
+	 *   - Title of the button
+	 * @property {string} type
+	 *   - Type of entry [button]
+	 *        button : Appears in some menus, file content is placed in HREF
+	 * @property {string} [file]
+	 *   - HREF content (path, link, or JavaScript)
+	 */
+
+	"buttonbar" : [
+		{
+			"id"    : "Home",
+			"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			"title" : "Home",
+			"type"  : "button"
+		},
+		{
+			"id"    : "PI",
+			"file"  : "pdfs/prescribing_information.pdf",
+			"title" : "Prescribing Information",
+			"type"  : "button"
+		},
+		{
+			"id"    : "MedGuide",
+			"file"  : "pdfs/medication_guide.pdf",
+			"title" : "Medication Guide",
+			"type"  : "button"
+		},
+		{
+			"id"    : "ISI",
+			"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax');",
+			"title" : "Important Safety Information",
+			"type"  : "button"
+		},
+		{
+			"id"    : "REFS",
+			"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			"title" : "References",
+			"type"  : "button"
+		}
+	],
+
+	/**
+	 * The "paths" object contains any number of named path arrays,
+	 * each of which lists (in order) a list of page IDs making a swipe
+	 * navigation path
+	 *
+	 * "default" path is required, but the name may be changed via FW.SETTINGS
+	 */
+
+	"paths" : {
+		"default"   : [
+			"slide.0.0.0","slide.1.0.0","slide.1.1.0","slide.1.2.0",
+			"slide.1.3.0","slide.2.0.0","slide.2.1.0","slide.2.2.0",
+			"slide.3.0.0","slide.3.1.0","slide.3.2.0","slide.3.3.0",
+			"slide.3.4.0","slide.4.0.0","slide.4.1.0","slide.4.2.0",
+			"slide.5.0.0","slide.5.1.0","slide.6.0.0"
+		],
+		"segment_1" : [
+			"slide.0.0.0","slide.0.2.0","slide.5.0.0","slide.1.0.0",
+			"slide.1.2.0","slide.3.0.0"
+		]
+	}
+
+}}

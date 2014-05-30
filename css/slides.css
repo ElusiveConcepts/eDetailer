@@ -1,0 +1,44 @@
+/**
+ * Global Styles (used in many or all slides)
+ */
+.chart
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-position: 42px 0;
+	background-repeat: no-repeat;
+}
+
+.chart-group
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+/**
+ * Slide specific styles
+ *
+ * Please precede styles with ID of slide to prevent setting styles globally.
+ * Please keep all global styles in the section above, or in uiskin.css
+ */
+
+/* splash */
+#splash
+{ 
+	background-image: url('../images/slides/splash.jpg'); 
+}
+
+/* slide.0.0.0 */
+#slide-0-0-0 
+{ 
+	background-image: url('../images/slides/slide.0.0.0.jpg'); 
+}
+

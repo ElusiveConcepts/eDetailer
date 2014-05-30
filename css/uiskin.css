@@ -1,0 +1,448 @@
+/**
+ * UI Skin
+ *
+ * Modify the styles in this file to customize the UI skin and global elements
+ */
+
+/**
+ * Default Settings for the Skin
+ */
+* { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+body
+{
+	font: 14px/1.2 "helvetica-neue", "helvetica", "arial", "sans-serif";
+}
+
+.scrollable
+{
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.scrollable > *
+{
+    -webkit-transform: translateZ(0px);
+}
+
+/**
+ * Defaults for content Pages
+ */
+.page
+{
+	width: 1022px;
+	height: 766px;
+	padding: 1px;
+	background-position: 0 0;
+	background-repeat: none;
+	background-size: 1024px 768px;
+}
+
+.page.locked:after
+{
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 92px;
+	right: 16px;
+	width: 15px;
+	height: 20px;
+	background: url('../images/ui/lock-icon.png') 50% 50% no-repeat;
+	background-size: 16px 16px;
+}
+#splash.locked:after { display: none; }
+
+.content
+{
+	width: 100%;
+	height: 100%;
+}
+
+/**
+ * Creates a transparent overlay using a background image. Use this to help
+ * with positioning elements on a page by doing the following:
+ *    Set the background-image to a jpg of the screenshot you wish to match
+ *    Set display to block
+ *
+ * This will show the background image as a transparent overlay for simple
+ * positioning alignment and checking
+ */
+#layout
+{
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 768px;
+	background: url('../images/layouts/splash.jpg') 0 0 no-repeat;
+	background-size: 1024px 768px;
+	opacity: 0.5;
+	z-index: 1000;
+	pointer-events: none;
+}
+
+/**
+ * UI Tab Settings (may or may not be used depending on presentation)
+ */
+.tabs
+{
+	position: absolute;
+	top: 92px;
+	left: 0px;
+	width: 1024px;
+	height: 628px;
+}
+.tab
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-position: 42px 0;
+	background-repeat: no-repeat;
+	opacity: 0;
+	transition: opacity 0.5s;
+	pointer-events: none;
+}
+.tab.active
+{
+	opacity: 1;
+}
+
+.tab * { pointer-events: all; }
+
+.tab_btn
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 182px;
+	height: 50px;
+	/*background: rgba(255,0,255,0.5);*/
+}
+
+/**
+ * Global UI Skin Settings
+ */
+#ui
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 768px;
+	z-index: 900px;
+	pointer-events: none;
+}
+
+#ui *
+{
+	pointer-events: auto;
+}
+
+/**
+ * Logo and Branding
+ */
+#branding
+{
+	position: absolute;
+	top: 12px;
+	right: 15px;
+	width: 130px;
+	height: 66px;
+	background: url('../images/ui/logo.png') 0 0 no-repeat;
+	background-size: 100%;
+}
+
+/**
+ * Primary (left hand) navigation styling
+ */
+#navbutton, #navbutton2
+{
+	position: absolute;
+	cursor: pointer;
+	top: 40px;
+	width: 50px;
+	height: 40px;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: 25px 20px;
+	opacity: 1;
+	-webkit-transition: opacity 0.25s;
+	transition: opacity 0.25s;
+}
+
+#navbutton
+{
+	left: -6px;
+	background-image: url('../images/ui/menu_btn.png');
+}
+
+#navbutton2
+{
+	right: 10px;
+	background-image: url('../images/ui/menu_btn.png');
+}
+
+#navbutton.active
+{
+	opacity: 0;
+}
+
+#navigation
+{
+	padding-top: 105px;
+	background: rgba(0,0,0,0.7);
+}
+
+#navigation ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#navigation>ul>li>a,
+#navigation>ul>li>span
+{
+	display: block;
+	padding: 10px 0px;
+	background: linear-gradient(to bottom, #111 2%, #678 2%, #234 100%);
+}
+
+#navigation>ul>li,
+#navigation>ul>li a,
+#navigation>ul>li span
+{
+	text-align: center;
+	color: #FFF;
+	font-size: 18px;
+	text-shadow: 0px -1px 1px rgba(0,0,0,0.5);
+	text-decoration: none;
+}
+
+#navigation ul ul
+{
+	display: none;
+	height: 0;
+	transition: all 2s;
+	overflow: hidden;
+}
+
+#navigation ul .open ul
+{
+	display: block;
+	height: auto;
+}
+
+#navigation ul ul li a,
+#navigation ul ul li span
+{
+	display: block;
+	padding: 10px 0 10px 20px;
+	background: #678;
+	border-bottom: 1px solid #123;
+}
+
+#navigation li span
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/**
+ * Secondary (bottom, a.k.a. buttonbar) navigation styling
+ */
+#buttonbar
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 48px;
+	background: linear-gradient(to bottom, #ABC 2%, #678 2%, #234 100%) 0 0 repeat-x;
+	background-size: 1px 48px;
+	border-top: 1px solid #111;
+}
+
+#buttonbar ul
+{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px 0px 0px 50px;
+}
+
+#buttonbar li
+{
+	float: left;
+	border-left: 1px solid rgba(255,255,255,0.3);
+}
+
+#buttonbar li a
+{
+	display: block;
+	padding: 0px 35px;
+	color: #FFF;
+	font: 16px/48px "Helvetica Neue Bold Condensed", "Helvetica Neue", Helvetica, "Arial Narrow", Arial, sans-serif;
+	text-decoration: none;
+	text-shadow: 0px -1px rgba(0,0,0,0.3);
+}
+
+
+/**
+ * Pop-Up (overlay) Styling
+ */
+#lb_content
+{
+	position: absolute;
+	top: 41px;
+	left: 37px;
+	width: 952px;
+	height: 679px;
+	background: #FFF;
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+}
+
+#lb_close
+{
+	position: absolute;
+	top: 13px;
+	right: 9px;
+	width: 54px;
+	height: 54px;
+	background: url('../images/ui/btn_close_info_sprite.png') 0px 0px no-repeat;
+	background-size: 107px;
+}
+#lb_close:active { background-position:   0px -54px; }
+ 
+ 
+ /**
+  * ISI Popup Styling
+  */
+ .isi-popup #lb_content
+ {
+ 	background-color: #FFF;
+ }
+ 
+ .isi-popup #lb_content .scrollable
+ {
+ 	width: 877px;
+ 	height: 90%;
+ 	margin: 5% 30px;
+ }
+ 
+ .isi-popup img { width: 877px; height: 1250px; }
+ 
+ /**
+  * Refs Popup Styling
+  */
+ .refs-popup #lb_content .scrollable
+ {
+ 	width: 877px;
+ 	height: 90%;
+ 	margin: 5% 37px;
+ }
+ 
+ .refs-popup img { width: 772px; height: 250px; }
+ 
+ /**
+  * info Popup Styling
+  */
+ .info-popup #lb_content
+ {
+ 	width: 315px;
+ 	height: 397px;
+ 	margin: 0px;
+ 	top: 323px;
+ 	left: 682px;
+ 	overflow: hidden;
+ }
+ 
+ .info-popup img { width: 315px; height: 397px; }
+ .info-popup #lb_overlay { display: none; }
+ .info-popup #lb_close { top: 300px; left: 960px; }
+
+
+/**
+ * Table of Contents Styling
+ */
+.toc #lb_content
+{
+	height: 380px;
+	padding-top: 70px;
+}
+
+
+.toc #lb_content:before
+{
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 70px;
+	background: #FFF url('../images/headers/toc.png') 50% 0% no-repeat;
+	background-size: 100% auto;
+}
+
+.toc ul
+{
+	list-style: none;
+	margin: 45px 168px;
+	padding: 0px;
+}
+
+.toc ul ul
+{
+	margin: 0px;
+}
+
+.toc li
+{
+	display: inline-block;
+	margin: 0px 5px;
+	padding: 0px;
+	vertical-align: top;
+}
+
+.toc li a
+{
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	display: box;
+	box-pack: center;
+	box-align: center;
+
+	width: 144px;
+	height: 50px;
+	color: #FFF;
+	font: 15px/1.1 "HelveticaNeue-CondensedBold", "HelveticaNeueLTStd-BdCn", "HelveticaNeue", "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+	text-align: center;
+	text-decoration: none;
+	background: url('../images/ui/toc_btns_sprite.png') 0 0 no-repeat;
+	background-size: 144px 150px;
+}
+
+.toc ul ul li a
+{
+	color: #000;
+	background-position: 0px -100px;
+}
+
+.toc li a:active,
+.toc ul ul li a:active
+{
+	color: #FFF;
+	background-position: 0px -50px;
+}
+
+.toc ul ul li
+{
+	display: block;
+	margin: 10px 0px;
+}

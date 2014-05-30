@@ -1,0 +1,64 @@
+{"sitemap" : {
+	"pages" : [
+		{
+			"id"    : "splash",
+			"file"  : "slides/splash.html",
+			"title" : "Splash Page",
+			"type"  : "hidden"
+		},
+		{
+			"id"    : "header.0.0.0",
+			"file"  : "",
+			"title" : "Section Header",
+			"type"  : "header",
+			"children" : [
+				{
+					"id"    : "slide.0.0.0",
+					"file"  : "slides/slide.0.0.0.html",
+					"title" : "Page Title",
+					"type"  : "slide"
+				}
+			]
+		}
+	],
+	"buttonbar" : [
+		{
+			"id"    : "Home",
+			"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			"title" : "Home",
+			"type"  : "button"
+		},
+		{
+			"id"    : "PI",
+			"file"  : "pdfs/prescribing_information.pdf",
+			"title" : "Prescribing Information",
+			"type"  : "button"
+		},
+		{
+			"id"    : "MedGuide",
+			"file"  : "pdfs/medication_guide.pdf",
+			"title" : "Medication Guide",
+			"type"  : "button"
+		},
+		{
+			"id"    : "ISI",
+			"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax', 'isi-popup');",
+			"title" : "Important Safety Information",
+			"type"  : "button"
+		},
+		{
+			"id"    : "REFS",
+			"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax', 'refs-popup');",
+			"title" : "References",
+			"type"  : "button"
+		}
+	],
+	"paths" : {
+		"default"   : [
+			"splash","slide.0.0.0"
+		],
+		"segment_1" : [
+			"slide.0.0.0"
+		]
+	}
+}}

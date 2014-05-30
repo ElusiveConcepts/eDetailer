@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="format-detection" content="telephone=no">
+
+	<title>Amgen OBU Framework</title>
+
+	<script type="text/javascript">
+		/* Avoid Caching */
+		var nocache = '?ts=' + new Date().getTime();
+
+		function noCacheLoad(file, type)
+		{
+			switch(type)
+			{
+				case 'js':
+					var node = document.createElement('script');
+						node.setAttribute("type", "text/javascript");
+						node.setAttribute("src", file + nocache);
+						document.getElementsByTagName("body")[0].appendChild(node);
+					break;
+
+				case 'css':
+					var node = document.createElement("link");
+						node.setAttribute("rel", "stylesheet");
+						node.setAttribute("type", "text/css");
+						node.setAttribute("href", file + nocache);
+						document.getElementsByTagName("head")[0].appendChild(node);
+					break;
+			}
+		}
+
+		noCacheLoad('css/framework.css', 'css');
+		noCacheLoad('css/uiskin.css', 'css');
+		noCacheLoad('css/slides.css', 'css');
+	</script>
+</head>
+<body>
+<div id="container">
+
+	<!-- Content Display Containers -->
+	<div id="screens">
+		<div id="screen1" class="SCREEN SLIDE-R2L"></div>
+		<div id="screen2" class="SCREEN SLIDE-R2L"></div>
+	</div>
+
+	<div id="layout"></div>
+
+	<!-- Static UI Elements -->
+	<div id="ui">
+		<div id="branding"><!-- Logo and Branding --></div>
+		<div id="navbutton"><!-- Navigation Toggle Button --></div>
+		<div id="navigation"><!-- Navigation Menu -->
+			<div id="navbutton2" onclick="FW.NAV.hide();"><!-- Navigation Close Button --></div>
+		</div>
+		<div id="buttonbar"><!-- Bottom Button Bar --></div>
+		<div id="toc"><!-- Table of Contents --></div>
+	</div>
+
+	<!-- Lightbox -->
+	<div id="lightbox" class="">
+		<div id="lb_overlay"><!-- Lighbox Overlay --></div>
+		<div id="lb_content"><!-- Lightbox Content --></div>
+		<div id="lb_close"><!-- Lightbox Close Button --></div>
+	</div>
+
+	<div id="debug">
+		<div id="console"></div>
+		<div id="console_tab">DEBUG CONSOLE</div>
+	</div>
+
+</div><!-- #container -->
+
+<script type="text/javascript">
+	noCacheLoad('js/lib/zepto.min.js', 'js');
+	noCacheLoad('js/lib/zepto.touch.min.js', 'js');
+	noCacheLoad('js/framework.js', 'js');
+	noCacheLoad('js/slides.js', 'js');
+</script>
+
+</body>
+</html>
