@@ -222,25 +222,25 @@
 		// Emulate touchmove w/mouse
 		if(FW.SETTINGS.faketouch)
 		{
-			$('*').on('mousedown', function(e) { FW.dragging = true;  FW.drag.x = e.x; FW.drag.y = e.y; });
-			$('*').on('mouseup',   function(e) { FW.dragging = false; FW.drag.x =  -1; FW.drag.y =  -1; });
-			$('*').on('mouseout',  function(e) { FW.dragging = false; FW.drag.x =  -1; FW.drag.y =  -1; });
+			$('*').on('mousedown', function(e) { _dragging = true;  _drag.x = e.x; _drag.y = e.y; });
+			$('*').on('mouseup',   function(e) { _dragging = false; _drag.x =  -1; _drag.y =  -1; });
+			$('*').on('mouseout',  function(e) { _dragging = false; _drag.x =  -1; _drag.y =  -1; });
 			$('*').on('mousemove', function(e)
 			{
-				if(FW.dragging )
+				if(_dragging )
 				{
 					var swipe = false;
-					if(e.x - FW.drag.x >  100) { swipe = 'swipeRight'; }
-					if(e.x - FW.drag.x < -100) { swipe = 'swipeLeft'; }
-					if(e.y - FW.drag.y >  100) { swipe = 'swipeDown'; }
-					if(e.y - FW.drag.y < -100) { swipe = 'swipeUp'; }
+					if(e.x - _drag.x >  100) { swipe = 'swipeRight'; }
+					if(e.x - _drag.x < -100) { swipe = 'swipeLeft'; }
+					if(e.y - _drag.y >  100) { swipe = 'swipeDown'; }
+					if(e.y - _drag.y < -100) { swipe = 'swipeUp'; }
 
 					if(swipe)
 					{
 						$(e.target).trigger(swipe, e);
-						FW.dragging = false;
-						FW.drag.x   = -1;
-						FW.drag.y   = -1;
+						_dragging = false;
+						_drag.x   = -1;
+						_drag.y   = -1;
 					}
 				}
 			});
