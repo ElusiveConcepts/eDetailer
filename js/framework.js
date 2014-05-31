@@ -1,5 +1,5 @@
 /**
- * <p><strong>FW - eDetail Presentation Framework</strong></p>
+ * <p><strong>eDetailer - eDetail Presentation Framework</strong></p>
  *
  * <p>This global object encapsulates all variables and methods
  * used within the framework and acts as a namespace.</p>
@@ -9,13 +9,16 @@
  *
  * @requires Zepto or jQuery
  * @type {Object}
- * @param {Object} FW Self Reference
+ * @name eDetailer
+ * @namespace com.elusiveconcepts.edetailer
+ *
+ * @param {Object} eDetailer Self Reference
  * @param {object} $ Zepto or jQuery Object
- * @name FW
- * @namespace com.havashealth.edetail.framework
+ *
+ * @todo Separate into component source files and write build scripts
  */
-(function(FW, $, undefined)
-{/** @lends FW */
+(function(eDetailer, $, undefined)
+{/** @lends eDetailer */
 
 	/**
 	 * - Stores references to the DOM elements used for
@@ -48,8 +51,8 @@
 	var _drag = { 'x': -1, 'y': -1};
 
 	/** - Used to default click events to touches on iPad */
-	FW.clickEvent = "touchend mouseup";
-	// changed from: FW.clickEvent = ("createTouch" in document) ? "touchend" : "click";
+	eDetailer.clickEvent = "touchend mouseup";
+	// changed from: eDetailer.clickEvent = ("createTouch" in document) ? "touchend" : "click";
 	// as this is now unreliable in chrome (touch events are always on, regardless)
 
 	/**
@@ -59,7 +62,7 @@
 	 * HTML file to avoid caching issues</p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {boolean} [debug=false]
 	 *   - Whether or not to enable debug console
 	 * @property {boolean} [preload=false]
@@ -67,7 +70,7 @@
 	 * @property {string} [primary="splash"]
 	 *   - Initial slide to load (must be in the sitemap)
 	 * @property {string} [transition="R2L"]
-	 *   - Default page transition for navigation (see FW.loadPage)
+	 *   - Default page transition for navigation (see eDetailer.PAGE.load)
 	 * @property {string} [swipepath="default"]
 	 *   - Default segmentation path
 	 * @property {boolean} [locknav=false]
@@ -75,7 +78,7 @@
 	 * @property {boolean} [faketouch=false]
 	 *   - Whether or not to emulate touchmove with the mouse
 	 */
-	FW.SETTINGS = {
+	eDetailer.SETTINGS = {
 		"debug"      : false,
 		"preload"    : false,
 		"primary"    : "splash",
@@ -88,32 +91,34 @@
 	/**
 	 * <p><strong>Slides JS Loaded</strong></p>
 	 *
-	 * <p>Set FW.SLIDESJS = true; at the end of slides.js or else
+	 * <p>Set eDetailer.SLIDESJS = true; at the end of slides.js or else
 	 * framework will not work (initialization requires this)</p>
 	 */
-	FW.SLIDESJS =  false;
+	eDetailer.SLIDESJS =  false;
 
 
 	/**
 	 * <p><strong>Call Framework Initialization</strong></p>
 	 *
-	 * <p>Looks for slides.js to be loaded (as set by FW.SLIDESJS = true)
+	 * <p>Looks for slides.js to be loaded (as set by eDetailer.SLIDESJS = true)
 	 * and initializes framework, otherwise delays for 100 ms and retries</p>
-	 * <p>Note: You MUST set FW.SLIDESJS = true at the end of slides.js or
+	 * <p>Note: You MUST set eDetailer.SLIDESJS = true at the end of slides.js or
 	 * the framework will not load!</p>
+	 *
+	 * @todo rethink this to be event based
 	 */
-	FW.INIT = function()
+	eDetailer.INIT = function()
 	{
-		/* DEBUG */ FW.LOG('DEBUG MODE ON!!!!!!!');
+		/* DEBUG */ eDetailer.LOG('DEBUG MODE ON!!!!!!!');
 
-		if(!FW.SLIDESJS)
+		if(!eDetailer.SLIDESJS)
 		{
-			/* DEBUG */ FW.LOG('slides.js not loaded, delaying initialization');
-			setTimeout(FW.INIT, 100);
+			/* DEBUG */ eDetailer.LOG('slides.js not loaded, delaying initialization');
+			setTimeout(eDetailer.INIT, 100);
 		}
 		else
 		{
-			/* DEBUG */ FW.LOG('Calling framework initialization');
+			/* DEBUG */ eDetailer.LOG('Calling framework initialization');
 			init();
 		}
 	}
@@ -124,17 +129,18 @@
 	 *
 	 * <p>Loads the sitemap and calls buildMenu, then sets up basic
 	 * touch events and navigation button events</p>
-	 * <p>Note:
+	 *
+	 * @todo decouple content generation and let the user do it if they want
 	 */
 	var init = function()
 	{
-		/* DEBUG */ FW.LOG('Starting initialization...');
+		/* DEBUG */ eDetailer.LOG('Starting initialization...');
 
 		// Lock the presentation from overscroll
 		document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 		$('.scrollable').on('touchmove', function(e) { e.stopPropagation(); });
 
-		if(FW.SETTINGS.debug) { $('body').addClass('debug'); }
+		if(eDetailer.SETTINGS.debug) { $('body').addClass('debug'); }
 
 		$.ajaxSettings.cache = false;
 
@@ -143,84 +149,89 @@
 			document.getElementById('screen2')
 		];
 
-		_path = FW.SETTINGS.swipepath;
+		_path = eDetailer.SETTINGS.swipepath;
 
-		/* DEBUG */ FW.LOG('Loading Sitemap JSON');
+		/* DEBUG */ eDetailer.LOG('Loading Sitemap JSON');
 		// Load the sitemap content and display first page
 		$.ajax({ type: 'GET', url: 'js/sitemap.json', dataType: 'json', timeout: 300,
 			error: function(xhr, type, e)
 			{
-				/* DEBUG */ FW.LOG("Sitemap load error: Ajax Request Timed Out");
-				FW.INIT();
+				/* DEBUG */ eDetailer.LOG("Sitemap load error: Ajax Request Timed Out");
+				eDetailer.INIT();
 			},
 			success: function(data)
 			{
 				if(!data || data.length < 1)
 				{
-					/* DEBUG */ FW.LOG("Sitemap load error: Response is Empty");
+					/* DEBUG */ eDetailer.LOG("Sitemap load error: Response is Empty");
 					return false;
 				}
 				else
 				{
-					/* DEBUG */ FW.LOG("Sitemap loaded");
+					/* DEBUG */ eDetailer.LOG("Sitemap loaded");
 				}
 
-				FW.SITEMAP.pages   = data.sitemap.pages     || [];
-				FW.SITEMAP.buttons = data.sitemap.buttonbar || [];
-				FW.SITEMAP.paths   = data.sitemap.paths     || {};
-				FW.SITEMAP.loaded  = true;
+				eDetailer.SITEMAP.pages   = data.sitemap.pages     || [];
+				eDetailer.SITEMAP.buttons = data.sitemap.buttonbar || [];
+				eDetailer.SITEMAP.paths   = data.sitemap.paths     || {};
+				eDetailer.SITEMAP.loaded  = true;
 
-				/* DEBUG */ FW.LOG("Setting default swipe path");
-				FW.SITEMAP.setPath(FW.SETTINGS.swipepath);
+				/* DEBUG */ eDetailer.LOG("Setting default swipe path");
+				eDetailer.SITEMAP.setPath(eDetailer.SETTINGS.swipepath);
 
-				/* DEBUG */ FW.LOG("Creating Page index");
-				FW.SITEMAP.createIndex(FW.SITEMAP.pages);
+				/* DEBUG */ eDetailer.LOG("Creating Page index");
+				eDetailer.SITEMAP.createIndex(eDetailer.SITEMAP.pages);
 
-				/* DEBUG */ FW.LOG("Triggering FW:SITEMAP:load");
-				$(document.body).trigger('FW:SITEMAP:load');
+				/* DEBUG */ eDetailer.LOG("Triggering eDetailer:SITEMAP:load");
+				$(document.body).trigger('eDetailer:SITEMAP:load');
 
-				/* DEBUG */ FW.LOG("Building Navigation");
-				$('#navigation').append(FW.NAV.generate(FW.SITEMAP.pages, 0, 'nav-', true, false, true));
+				// This should not be built in, dev should call as necessary
+				/* DEBUG */ eDetailer.LOG("Building Navigation");
+				$('#navigation').append(eDetailer.NAV.generate(eDetailer.SITEMAP.pages, 0, 'nav-', true, false, true));
 
-				/* DEBUG */ FW.LOG("Building Table of Contents");
-				$('#toc').append(FW.NAV.generate(FW.SITEMAP.pages, 0, 'toc-'));
+				// This should not be built in, dev should call as necessary
+				/* DEBUG */ eDetailer.LOG("Building Table of Contents");
+				$('#toc').append(eDetailer.NAV.generate(eDetailer.SITEMAP.pages, 0, 'toc-'));
 
-				/* DEBUG */ FW.LOG("Building Button Bar");
-				$('#buttonbar').append(FW.NAV.buttonBar(FW.SITEMAP.buttons));
+				// This should not be built in, dev should call as necessary
+				/* DEBUG */ eDetailer.LOG("Building Button Bar");
+				$('#buttonbar').append(eDetailer.NAV.buttonBar(eDetailer.SITEMAP.buttons));
 
-				/* DEBUG */ FW.LOG("Loading Default Page");
-				FW.PAGE.load(FW.SETTINGS.primary, 'FADE');
+				/* DEBUG */ eDetailer.LOG("Loading Default Page");
+				eDetailer.PAGE.load(eDetailer.SETTINGS.primary, 'FADE');
 			}
 		});
 
+		// Move to eDetailer.NAV.init
 		// Toggle the navigation menu when nav button is clicked
-		$('#navbutton').on(FW.clickEvent, function(e)
+		$('#navbutton').on(eDetailer.clickEvent, function(e)
 		{
-			console.log('clicked Nav');
 			e.preventDefault();
-			FW.NAV.toggle();
+			eDetailer.NAV.toggle();
 			return false;
 		});
 
+		// Move to eDetailer.NAV.init
 		// Hide the navigation menu if touched outside
-		$('#screens').on(FW.clickEvent, function(e) { FW.NAV.hide(); });
+		$('#screens').on(eDetailer.clickEvent, function(e) { eDetailer.NAV.hide(); });
 
+		// Move to eDetailer.LIGHTBOX.init
 		// Hide the popup if overlay is touched
-		$('#lb_overlay, #lb_close').on(FW.clickEvent, function(e)
+		$('#lb_overlay, #lb_close').on(eDetailer.clickEvent, function(e)
 		{
 			e.preventDefault();
-			FW.LIGHTBOX.hide(e);
+			eDetailer.LIGHTBOX.hide(e);
 			return false;
 		});
 
 		// Allow access to Debug Console
-		if(FW.SETTINGS.debug)
+		if(eDetailer.SETTINGS.debug)
 		{
-			$('#console_tab').on(FW.clickEvent, function(e) { $('#debug').toggleClass('open'); });
+			$('#console_tab').on(eDetailer.clickEvent, function(e) { $('#debug').toggleClass('open'); });
 		}
 
 		// Emulate touchmove w/mouse
-		if(FW.SETTINGS.faketouch)
+		if(eDetailer.SETTINGS.faketouch)
 		{
 			$('*').on('mousedown', function(e) { _dragging = true;  _drag.x = e.x; _drag.y = e.y; });
 			$('*').on('mouseup',   function(e) { _dragging = false; _drag.x =  -1; _drag.y =  -1; });
@@ -253,14 +264,16 @@
 	 * <p>Returns the current page ID</p>
 	 *
 	 * @return {string} - Current page ID
+	 *
+	 * @deprecated You should use eDetailer.PAGE.id instead.
 	 */
-	FW.currentPage = function()
+	eDetailer.currentPage = function()
 	{
 		return _page_id;
 	}
 
 
-/*==[ FW.PAGE ]==============================================================*/
+/*==[ eDetailer.PAGE ]==============================================================*/
 
 	/**
 	 * <p><strong>Page Object</strong></p>
@@ -270,7 +283,7 @@
 	 * <p><em>For more information, see sample.sitemap.json</em></p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {string} id
 	 *   - ID used to reference the page (also used for tracking)
 	 * @property title
@@ -286,7 +299,7 @@
 	 * @property {object} onLoadCallbacks
 	 *   - Callbacks fired when page is visible
 	 */
-	FW.PAGE = {
+	eDetailer.PAGE = {
 		"id"                 : '',
 		"type"               : '',
 		"file"               : '',
@@ -302,11 +315,11 @@
 	 * <p>Loads the next page in the path if not currently locked and
 	 * additional pages are available and adjusts the current position</p>
 	 */
-	FW.PAGE.next = function()
+	eDetailer.PAGE.next = function()
 	{
 		if(!_locked && _path_pos < _path.length-1)
 		{
-			FW.PAGE.load(_path[++_path_pos], 'R2L');
+			eDetailer.PAGE.load(_path[++_path_pos], 'R2L');
 		}
 	}
 
@@ -316,11 +329,11 @@
 	 * <p>Loads the previous page in the path if not currently locked and
 	 * earlier pages are available and adjusts the current position</p>
 	 */
-	FW.PAGE.prev = function()
+	eDetailer.PAGE.prev = function()
 	{
 		if(!_locked && _path_pos > 0)
 		{
-			FW.PAGE.load(_path[--_path_pos], 'L2R');
+			eDetailer.PAGE.load(_path[--_path_pos], 'L2R');
 		}
 	}
 
@@ -329,10 +342,10 @@
 	 *
 	 * <p>Locks the swiping, and optionally, the navigation menus</p>
 	 */
-	FW.PAGE.lock = function()
+	eDetailer.PAGE.lock = function()
 	{
 		_locked = true;
-		$('#'+FW.PAGE.formatId(FW.PAGE.id)).addClass('locked');
+		$('#'+eDetailer.PAGE.formatId(eDetailer.PAGE.id)).addClass('locked');
 	}
 
 	/**
@@ -340,10 +353,10 @@
 	 *
 	 * <p>Unlocks the swiping, and optionally, the navigation menus</p>
 	 */
-	FW.PAGE.unlock = function()
+	eDetailer.PAGE.unlock = function()
 	{
 		_locked = false;
-		$('#'+FW.PAGE.formatId(FW.PAGE.id)).removeClass('locked');
+		$('#'+eDetailer.PAGE.formatId(eDetailer.PAGE.id)).removeClass('locked');
 	}
 
 	/**
@@ -357,7 +370,7 @@
 	 * @return {string}
 	 *   - Formatted page ID
 	 */
-	FW.PAGE.formatId = function(id)
+	eDetailer.PAGE.formatId = function(id)
 	{
 		return id.replace(/\./g,'-');
 	}
@@ -373,11 +386,11 @@
 	 * @return {object|boolean}
 	 *   - Returns page object, or false if page does not exist
 	 */
-	FW.PAGE.get = function(page)
+	eDetailer.PAGE.get = function(page)
 	{
-		page = FW.PAGE.formatId(page);
+		page = eDetailer.PAGE.formatId(page);
 
-		return (FW.SITEMAP.index[page]) ? FW.SITEMAP.index[page] : false;
+		return (eDetailer.SITEMAP.index[page]) ? eDetailer.SITEMAP.index[page] : false;
 	}
 
 	/**
@@ -395,93 +408,95 @@
 	 * @param {string} [transition="NONE"]
 	 *   - Which direction to load new page, options are:
 	 *     FADE, L2R, R2L, T2B, B2T, NONE
+	 *
+	 * @todo move the class specific actions to class methods (e.g. nav updates)
 	 */
-	FW.PAGE.load = function(page, transition)
+	eDetailer.PAGE.load = function(page, transition)
 	{
-		/* DEBUG */ FW.LOG("Starting Page Load for page [" + page + "]");
+		/* DEBUG */ eDetailer.LOG("Starting Page Load for page [" + page + "]");
 
 		// Optional Parameter Defaults
 		transition = transition || 'NONE';
 
-		if(!FW.SITEMAP.loaded)
+		if(!eDetailer.SITEMAP.loaded)
 		{
-			/* DEBUG */ FW.LOG("Page load error: No Sitemap");
+			/* DEBUG */ eDetailer.LOG("Page load error: No Sitemap");
 			return false;
 		}
 		if(_page_id == page)
 		{
-			/* DEBUG */ FW.LOG("Page load error: Already on Requested Page");
-			FW.LIGHTBOX.hide();
+			/* DEBUG */ eDetailer.LOG("Page load error: Already on Requested Page");
+			eDetailer.LIGHTBOX.hide();
 			return false;
 		}
-		if(_locked && FW.SETTINGS.locknav)
+		if(_locked && eDetailer.SETTINGS.locknav)
 		{
-			/* DEBUG */ FW.LOG("Page load error: Page is Locked");
+			/* DEBUG */ eDetailer.LOG("Page load error: Page is Locked");
 			return false;
 		}
 
 		_page_id = page;
 
-		/* DEBUG */ FW.LOG("Preparing screen " + (1 - _display.current) + " for off-screen rendering");
+		/* DEBUG */ eDetailer.LOG("Preparing screen " + (1 - _display.current) + " for off-screen rendering");
 		_display.screens[1 - _display.current].className = 'SCREEN ' + transition + ' loading';
 
-		var new_page = FW.PAGE.get(page);
+		var new_page = eDetailer.PAGE.get(page);
 
 		if(!new_page)
 		{
-			/* DEBUG */ FW.LOG("Page load error: Could not retrieve page information for " + page);
+			/* DEBUG */ eDetailer.LOG("Page load error: Could not retrieve page information for " + page);
 			return false;
 		}
 
-		FW.PAGE.id       = new_page.id       || '';
-		FW.PAGE.type     = new_page.type     || '';
-		FW.PAGE.file     = new_page.file     || '';
-		FW.PAGE.title    = new_page.title    || '';
-		FW.PAGE.children = new_page.children || [];
-		FW.PAGE.parent   = new_page.parent   || false;
+		eDetailer.PAGE.id       = new_page.id       || '';
+		eDetailer.PAGE.type     = new_page.type     || '';
+		eDetailer.PAGE.file     = new_page.file     || '';
+		eDetailer.PAGE.title    = new_page.title    || '';
+		eDetailer.PAGE.children = new_page.children || [];
+		eDetailer.PAGE.parent   = new_page.parent   || false;
 
-		/* DEBUG */ FW.LOG("Starting Asynchronous Request for Page...");
-		$.ajax({ type: 'GET', url: FW.PAGE.file, dataType: 'html', timeout: 300,
+		/* DEBUG */ eDetailer.LOG("Starting Asynchronous Request for Page...");
+		$.ajax({ type: 'GET', url: eDetailer.PAGE.file, dataType: 'html', timeout: 300,
 			error: function(xhr, type, e)
 			{
-				/* DEBUG */ FW.LOG("Page load error: Ajax Request Timed Out");
+				/* DEBUG */ eDetailer.LOG("Page load error: Ajax Request Timed Out");
 
 				// Try again on Ajax error, but reset the page ID
 				_page_id = null;
-				FW.PAGE.load(page, transition);
+				eDetailer.PAGE.load(page, transition);
 			},
 			success: function(data)
 			{
 				if(!data || data.length < 1)
 				{
-					/* DEBUG */ FW.LOG("Page load error: Response is Empty");
+					/* DEBUG */ eDetailer.LOG("Page load error: Response is Empty");
 					return false;
 				}
 				else
 				{
-					/* DEBUG */ FW.LOG("Page loaded");
+					/* DEBUG */ eDetailer.LOG("Page loaded");
 				}
 
 				// Hide Open UI Elements
-				FW.NAV.hide();
-				FW.LIGHTBOX.hide();
-				FW.PAGE.unlock();
+				eDetailer.NAV.hide();
+				eDetailer.LIGHTBOX.hide();
+				eDetailer.PAGE.unlock();
 
 				$('#navigation li').removeClass('active').removeClass('open');
-				$('#nav-' + FW.PAGE.formatId(FW.PAGE.id)).addClass('active');
-				$('#nav-' + FW.PAGE.formatId(FW.PAGE.id)).parents('li').addClass('open');
-				if(FW.PAGE.children.length > 0)
+				$('#nav-' + eDetailer.PAGE.formatId(eDetailer.PAGE.id)).addClass('active');
+				$('#nav-' + eDetailer.PAGE.formatId(eDetailer.PAGE.id)).parents('li').addClass('open');
+				if(eDetailer.PAGE.children.length > 0)
 				{
-					$('#nav-' + FW.PAGE.formatId(FW.PAGE.id)).addClass('open');
+					$('#nav-' + eDetailer.PAGE.formatId(eDetailer.PAGE.id)).addClass('open');
 				}
 
-				parent = FW.PAGE.parent;
+				parent = eDetailer.PAGE.parent;
 
 				while(parent)
 				{
-					/* DEBUG */ FW.LOG("Looping through page parents...");
-					$('#nav-' + FW.PAGE.formatId(parent.id)).addClass('open');
-					var tmp = FW.PAGE.get(parent.id);
+					/* DEBUG */ eDetailer.LOG("Looping through page parents...");
+					$('#nav-' + eDetailer.PAGE.formatId(parent.id)).addClass('open');
+					var tmp = eDetailer.PAGE.get(parent.id);
 					if(!tmp) { parent = false; }
 					else     { parent = tmp.parent || false; }
 				}
@@ -490,39 +505,39 @@
 
 				_display.current = 1 - _display.current;
 
-				/* DEBUG */ FW.LOG("Populating screen " + (_display.current) + " with content");
+				/* DEBUG */ eDetailer.LOG("Populating screen " + (_display.current) + " with content");
 				_display.screens[_display.current].innerHTML = data;
 
-				/* DEBUG */ FW.LOG("Killing scrolling on screen " + (_display.current));
+				/* DEBUG */ eDetailer.LOG("Killing scrolling on screen " + (_display.current));
 				$(_display.screens[_display.current]).find('.scrollable').on('touchmove', function(e) { e.stopPropagation(); });
 
-				/* DEBUG */ FW.LOG("Deactivating screen " + (1 - _display.current));
+				/* DEBUG */ eDetailer.LOG("Deactivating screen " + (1 - _display.current));
 				$(_display.screens[1 - _display.current]).removeClass('active');
 
-				/* DEBUG */ FW.LOG("Activating screen " + (_display.current));
+				/* DEBUG */ eDetailer.LOG("Activating screen " + (_display.current));
 				$(_display.screens[_display.current]).removeClass('hidden').addClass('active');
 				setTimeout(function()
 				{
-					/* DEBUG */ FW.LOG("Animating screen " + (_display.current) + " into view...");
+					/* DEBUG */ eDetailer.LOG("Animating screen " + (_display.current) + " into view...");
 					$(_display.screens[_display.current]).removeClass('loading')
 				} , 10);
 				setTimeout(function()
 				{
-					/* DEBUG */ FW.LOG("Hiding screen " + (1 - _display.current) + "...");
+					/* DEBUG */ eDetailer.LOG("Hiding screen " + (1 - _display.current) + "...");
 					$(_display.screens[1 - _display.current]).addClass('hidden')
 				} , 500);
 
 				// Page Load Callback
-				if(typeof(FW.PAGE.onLoadCallbacks[FW.PAGE.id]) == 'function')
+				if(typeof(eDetailer.PAGE.onLoadCallbacks[eDetailer.PAGE.id]) == 'function')
 				{
-					FW.PAGE.onLoadCallbacks[FW.PAGE.id]();
+					eDetailer.PAGE.onLoadCallbacks[eDetailer.PAGE.id]();
 				}
 
 				// Page Visible Callback
-				if(typeof(FW.PAGE.onVisibleCallbacks[FW.PAGE.id]) == 'function')
+				if(typeof(eDetailer.PAGE.onVisibleCallbacks[eDetailer.PAGE.id]) == 'function')
 				{
 					$(_display.screens[1 - _display.current]).addClass('hidden');
-					setTimeout(FW.PAGE.onVisibleCallbacks[FW.PAGE.id], 500);
+					setTimeout(eDetailer.PAGE.onVisibleCallbacks[eDetailer.PAGE.id], 500);
 				}
 
 				// Double check path position
@@ -533,7 +548,7 @@
 					{
 						if(i == _path.length)
 						{
-							FW.SITEMAP.setPath(FW.SETTINGS.swipepath);
+							eDetailer.SITEMAP.setPath(eDetailer.SETTINGS.swipepath);
 							break;
 						}
 						if(_path[i] == _page_id)
@@ -544,7 +559,7 @@
 					}
 				}
 
-				FW.TRACKING.track('pageview', FW.PAGE.title, FW.PAGE.id);
+				eDetailer.TRACKING.track('pageview', eDetailer.PAGE.title, eDetailer.PAGE.id);
 			}
 		});
 	}
@@ -560,11 +575,11 @@
 	 * @param {function} func
 	 *   - Name of callback function
 	 */
-	FW.PAGE.onLoad = function(id, func)
+	eDetailer.PAGE.onLoad = function(id, func)
 	{
 		if(typeof(func) == 'function')
 		{
-			FW.PAGE.onLoadCallbacks[id] = func;
+			eDetailer.PAGE.onLoadCallbacks[id] = func;
 		}
 	}
 
@@ -579,16 +594,16 @@
 	 * @param {function} func
 	 *   - Name of callback function
 	 */
-	FW.PAGE.onVisible = function(id, func)
+	eDetailer.PAGE.onVisible = function(id, func)
 	{
 		if(typeof(func) == 'function')
 		{
-			FW.PAGE.onVisibleCallbacks[id] = func;
+			eDetailer.PAGE.onVisibleCallbacks[id] = func;
 		}
 	}
 
 
-/*==[ FW.SITEMAP ]===========================================================*/
+/*==[ eDetailer.SITEMAP ]===========================================================*/
 
 	/**
 	 * <p><strong>Sitemap Object</strong></p>
@@ -599,7 +614,7 @@
 	 * <p><em>For more information, see sample.sitemap.json</em></p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {boolean} [loaded=false]
 	 *   - <em>Changed</em> to true when the sitemap JSON is loaded
 	 * @property {array} pages
@@ -611,9 +626,9 @@
 	 * @property {object} index
 	 *   - <em>Auto-Generated</em> reverse lookup of sitemap entries by ID
 	 * @property {object} callbacks
-	 *   -
+	 *   - Callbacks fired when sitemap is loaded (not implemented)
 	 */
-	FW.SITEMAP = {
+	eDetailer.SITEMAP = {
 		"loaded" : false
 	};
 
@@ -627,15 +642,15 @@
 	 * @param {string} path
 	 *   - Name of segmentation path
 	 */
-	FW.SITEMAP.setPath = function(path)
+	eDetailer.SITEMAP.setPath = function(path)
 	{
-		if(typeof(FW.SITEMAP.paths[path]) == 'object')
+		if(typeof(eDetailer.SITEMAP.paths[path]) == 'object')
 		{
-			_path = FW.SITEMAP.paths[path];
+			_path = eDetailer.SITEMAP.paths[path];
 		}
 		else
 		{
-			_path = FW.SITEMAP.paths[FW.SETTINGS.swipepath];
+			_path = eDetailer.SITEMAP.paths[eDetailer.SETTINGS.swipepath];
 		}
 
 		for(var i=0; i < _path.length; i++)
@@ -660,38 +675,38 @@
 	 * @param {object} [parent]
 	 *   - Parent Node
 	 */
-	FW.SITEMAP.createIndex = function(pages, parent)
+	eDetailer.SITEMAP.createIndex = function(pages, parent)
 	{
 		// Initialize Index
-		if(typeof(FW.SITEMAP.index) != "object")
+		if(typeof(eDetailer.SITEMAP.index) != "object")
 		{
-			FW.SITEMAP.index = {};
+			eDetailer.SITEMAP.index = {};
 		}
 
 		for(var page=0; page < pages.length; page++)
 		{
 			// Load Index for Page
-			if(typeof(FW.SITEMAP.index[pages[page].id]) != "object")
+			if(typeof(eDetailer.SITEMAP.index[pages[page].id]) != "object")
 			{
-				FW.SITEMAP.index[FW.PAGE.formatId(pages[page].id)] = pages[page];
+				eDetailer.SITEMAP.index[eDetailer.PAGE.formatId(pages[page].id)] = pages[page];
 			}
 
 			// Load Parent for Page
 			if(typeof(parent) == "object")
 			{
-				FW.SITEMAP.index[FW.PAGE.formatId(pages[page].id)].parent = parent;
+				eDetailer.SITEMAP.index[eDetailer.PAGE.formatId(pages[page].id)].parent = parent;
 			}
 
 			// Recursive Step
 			if(typeof(pages[page].children) == 'object')
 			{
-				FW.SITEMAP.createIndex(pages[page].children, pages[page]);
+				eDetailer.SITEMAP.createIndex(pages[page].children, pages[page]);
 			}
 		}
 	}
 
 
-/*==[ FW.NAV ]===============================================================*/
+/*==[ eDetailer.NAV ]===============================================================*/
 
 	/**
 	 * <p><strong>Navigation Object</strong></p>
@@ -702,12 +717,12 @@
 	 * <p><em>For more information, see sample.sitemap.json</em></p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {string} active
 	 *   - Currently active page id
 	 */
-	FW.NAV = {
-		"active" : FW.SETTINGS.primary
+	eDetailer.NAV = {
+		"active" : eDetailer.SETTINGS.primary
 	};
 
 	/**
@@ -716,12 +731,12 @@
 	 * <p>Toggles the open/close state of the navigation based on
 	 * whether the navigation element has a class of "open"</p>
 	 *
-	 * @memberOf FW.NAV
+	 * @memberOf eDetailer.NAV
 	 */
-	FW.NAV.toggle = function()
+	eDetailer.NAV.toggle = function()
 	{
-		if($('#navigation').hasClass('open')) { FW.NAV.hide(); }
-		else                                  { FW.NAV.show(); }
+		if($('#navigation').hasClass('open')) { eDetailer.NAV.hide(); }
+		else                                  { eDetailer.NAV.show(); }
 	}
 
 	/**
@@ -729,9 +744,9 @@
 	 *
 	 * <p>Toggles the open/close state of accordian menu items</p>
 	 *
-	 * @memberOf FW.NAV
+	 * @memberOf eDetailer.NAV
 	 */
-	FW.NAV.itemToggle = function(item)
+	eDetailer.NAV.itemToggle = function(item)
 	{
 		if($('#' + item).hasClass('open'))
 		{
@@ -750,11 +765,11 @@
 	 * <p>Adds the class "open" to the navigation menu and the
 	 * class "active" to the navigation button</p>
 	 *
-	 * @memberOf FW.NAV
+	 * @memberOf eDetailer.NAV
 	 */
-	FW.NAV.show = function()
+	eDetailer.NAV.show = function()
 	{
-		if(FW.SETTINGS.locknav && _locked) { return false; }
+		if(eDetailer.SETTINGS.locknav && _locked) { return false; }
 
 		$('#navigation').addClass('open');
 		$('#navbutton').addClass('active');
@@ -766,9 +781,9 @@
 	 * <p>Removes the class "open" from the navigation menu and the
 	 * class "active" from the navigation button</p>
 	 *
-	 * @memberOf FW.NAV
+	 * @memberOf eDetailer.NAV
 	 */
-	FW.NAV.hide = function()
+	eDetailer.NAV.hide = function()
 	{
 		$('#navigation').removeClass('open');
 		$('#navbutton').removeClass('active');
@@ -795,8 +810,10 @@
 	 *
 	 * @return {string}
 	 *   - HTML markup of navigation menu
+	 *
+	 * @todo update parameters to accept array of types
 	 */
-	FW.NAV.generate = function(pages, level, prefix, accordian, hidden, buttons)
+	eDetailer.NAV.generate = function(pages, level, prefix, accordian, hidden, buttons)
 	{
 		// Optional Parameter Defaults
 		prefix    = prefix    || 'nav-';
@@ -811,7 +828,7 @@
 			if(!hidden  && pages[page].type == 'hidden') { continue; }
 			if(!buttons && pages[page].type == 'button') { continue; }
 
-			html += '<li id="' + prefix + FW.PAGE.formatId(pages[page].id) + '" class="' + pages[page].type + '">';
+			html += '<li id="' + prefix + eDetailer.PAGE.formatId(pages[page].id) + '" class="' + pages[page].type + '">';
 
 			switch(pages[page].type)
 			{
@@ -819,17 +836,17 @@
 					var func = "";
 					if(accordian)
 					{
-						func = "FW.NAV.itemToggle('" + prefix + FW.PAGE.formatId(pages[page].id) + "')";
+						func = "eDetailer.NAV.itemToggle('" + prefix + eDetailer.PAGE.formatId(pages[page].id) + "')";
 					}
 					else if(typeof(pages[page].children) == 'object' && pages[page].children.length > 0)
 					{
-						func = "FW.PAGE.load('" + pages[page].children[0].id + "', '" + FW.SETTINGS.transition + "');";
+						func = "eDetailer.PAGE.load('" + pages[page].children[0].id + "', '" + eDetailer.SETTINGS.transition + "');";
 					}
 					html += '<a href="javascript:' + func + '">' + pages[page].title + '</a>';
 					break;
 
 				case "slide":
-					html += '<a href="javascript:FW.PAGE.load(\'' + pages[page].id + '\', \'' + FW.SETTINGS.transition + '\')">';
+					html += '<a href="javascript:eDetailer.PAGE.load(\'' + pages[page].id + '\', \'' + eDetailer.SETTINGS.transition + '\')">';
 					html += pages[page].title;
 					html += '</a>';
 					break;
@@ -844,7 +861,7 @@
 			// Recursive Step
 			if(typeof(pages[page].children) == 'object')
 			{
-				html += FW.NAV.generate(pages[page].children, level+1, prefix, accordian, hidden, buttons);
+				html += eDetailer.NAV.generate(pages[page].children, level+1, prefix, accordian, hidden, buttons);
 			}
 
 			html += '</li>';
@@ -868,8 +885,10 @@
 	 *
 	 * @return {string}
 	 *   - HTML markup of button bar
+	 *
+	 * @todo This should be unnecessary...
 	 */
-	FW.NAV.buttonBar = function(buttons, prefix)
+	eDetailer.NAV.buttonBar = function(buttons, prefix)
 	{
 		// Optional Parameter Defaults
 		prefix = prefix || 'bbar-';
@@ -880,7 +899,7 @@
 		{
 			if(buttons[btn].type == 'button')
 			{
-				html += '<li id="' + prefix + FW.PAGE.formatId(buttons[btn].id) + '" class="' + buttons[btn].type + '">';
+				html += '<li id="' + prefix + eDetailer.PAGE.formatId(buttons[btn].id) + '" class="' + buttons[btn].type + '">';
 				html += '<a href="' + buttons[btn].file + '">' + buttons[btn].title + '</a>';
 				html += '</li>';
 			}
@@ -892,7 +911,7 @@
 	}
 
 
-/*==[ FW.TABS ]==============================================================*/
+/*==[ eDetailer.TABS ]==============================================================*/
 
 	/**
 	 * <p><strong>Tab UI Object</strong></p>
@@ -900,9 +919,9 @@
 	 * <p>Encapsulates methods for working with tabbed content areas</p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 */
-	FW.TABS = {};
+	eDetailer.TABS = {};
 
 	/**
 	 * <p><strong>Show a Selected Tab</strong></p>
@@ -912,11 +931,11 @@
 	 * @param {string} tab
 	 *   - DOM classname of tab to show
 	 */
-	FW.TABS.show = function(tab)
+	eDetailer.TABS.show = function(tab)
 	{
 		if(!_locked)
 		{
-			var page_id = FW.PAGE.formatId(_page_id);
+			var page_id = eDetailer.PAGE.formatId(_page_id);
 			var matches = $('#' + page_id)[0].className.match( /(show-tab-[0-9]+)/ );
 
 			for(var i=0; matches != null && i < matches.length; i++)
@@ -924,13 +943,13 @@
 				$('#' + page_id).removeClass(matches[i]);
 			}
 			$('.tab').removeClass('active');
-			$('#' + FW.PAGE.formatId(_page_id)).addClass('show-' + tab);
-			$('#' + FW.PAGE.formatId(_page_id) + ' .' + tab).addClass('active');
+			$('#' + eDetailer.PAGE.formatId(_page_id)).addClass('show-' + tab);
+			$('#' + eDetailer.PAGE.formatId(_page_id) + ' .' + tab).addClass('active');
 		}
 	}
 
 
-/*==[ FW.LIGHTBOX ]==========================================================*/
+/*==[ eDetailer.LIGHTBOX ]==========================================================*/
 
 	/**
 	 * <p><strong>Lightbox Object</strong></p>
@@ -939,13 +958,13 @@
 	 * lightbox.</p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {object} container
 	 *   - Lightbox DOM element
 	 * @property {object} content
 	 *   - Lightbox content DOM element
 	 */
-	FW.LIGHTBOX = {
+	eDetailer.LIGHTBOX = {
 		"container" : document.getElementById('lightbox'),
 		"content"   : document.getElementById('lb_content')
 	};
@@ -969,41 +988,41 @@
 	 * @param {string} [addclass]
 	 *   - Optionally assign a class to the lightbox DOM element
 	 */
-	FW.LIGHTBOX.show = function(content, source, addclass)
+	eDetailer.LIGHTBOX.show = function(content, source, addclass)
 	{
 		// Optional Parameter Defaults
 		source   = source   || 'passed';
 		addclass = addclass || '';
 
-		FW.NAV.hide();
+		eDetailer.NAV.hide();
 
 		switch(source)
 		{
 			case "ajax":
 				$.get(content, function(data)
 				{
-					FW.LIGHTBOX.content.innerHTML = data;
-					FW.LIGHTBOX.container.className = addclass + ' active';
-					$(FW.LIGHTBOX.content).find('.scrollable').on('touchmove', function(e) { e.stopPropagation(); });
+					eDetailer.LIGHTBOX.content.innerHTML = data;
+					eDetailer.LIGHTBOX.container.className = addclass + ' active';
+					$(eDetailer.LIGHTBOX.content).find('.scrollable').on('touchmove', function(e) { e.stopPropagation(); });
 				});
 				return;
 
 			case "image":
-				FW.LIGHTBOX.content.innerHTML = '<img src="' + content + '" alt="">';
-				FW.LIGHTBOX.container.className = addclass + ' active';
+				eDetailer.LIGHTBOX.content.innerHTML = '<img src="' + content + '" alt="">';
+				eDetailer.LIGHTBOX.container.className = addclass + ' active';
 				return;
 
 			case "inline":
 				if($('#' + content).length > 0)
 				{
-					FW.LIGHTBOX.content.innerHTML = $('#' + content).html();
-					FW.LIGHTBOX.container.className = addclass + ' active';
+					eDetailer.LIGHTBOX.content.innerHTML = $('#' + content).html();
+					eDetailer.LIGHTBOX.container.className = addclass + ' active';
 				}
 				return;
 
 			case "passed": default:
-				FW.LIGHTBOX.content.innerHTML = content;
-				FW.LIGHTBOX.container.className = addclass + ' active';
+				eDetailer.LIGHTBOX.content.innerHTML = content;
+				eDetailer.LIGHTBOX.container.className = addclass + ' active';
 				return;
 		}
 	}
@@ -1015,14 +1034,14 @@
 	 *
 	 * @param {object} [e] Event (such as a click event) to stop bubbling
 	 */
-	FW.LIGHTBOX.hide = function(e)
+	eDetailer.LIGHTBOX.hide = function(e)
 	{
-		FW.LIGHTBOX.container.className = '';
-		FW.LIGHTBOX.content.innerHTML = '';
+		eDetailer.LIGHTBOX.container.className = '';
+		eDetailer.LIGHTBOX.content.innerHTML = '';
 	}
 
 
-/*==[ FW.TRACKING ]==========================================================*/
+/*==[ eDetailer.TRACKING ]==========================================================*/
 
 	/**
 	 * <p><strong>Tracking Object</strong></p>
@@ -1031,13 +1050,13 @@
 	 * tracking object within irep</p>
 	 *
 	 * @class
-	 * @memberOf FW
+	 * @memberOf eDetailer
 	 * @property {array} callbacks
 	 *   - Array of callbacks for tracking results
 	 * @property {object} iframe
 	 *   - DOM iFrame used for making tracking requests
 	 */
-	FW.TRACKING = {
+	eDetailer.TRACKING = {
 		"callbacks" : [],
 		"iframe"    : false
 	};
@@ -1054,7 +1073,7 @@
 	 * @param {string} track_id
 	 *   - ID of the tracking request (e.g. Page ID)
 	 */
-	FW.TRACKING.track = function (track_type, track_value, track_id)
+	eDetailer.TRACKING.track = function (track_type, track_value, track_id)
 	{
 		var clickStream = {
 			'Track_Element_Description_vod__c' : track_value,
@@ -1065,18 +1084,18 @@
 		var request  = "veeva:saveObject(";
 		    request += "Call_Clickstream_vod__c),";
 		    request += "value(" + JSON.stringify(clickStream) + "),";
-		    request += "callback(FW.TRACKING.result)";
+		    request += "callback(eDetailer.TRACKING.result)";
 
-		if(typeof(FW.TRACKING.iframe) != "object")
+		if(typeof(eDetailer.TRACKING.iframe) != "object")
 		{
 			// The iframe is necessary to not break the active page.
-			FW.TRACKING.iframe = document.createElement("iframe");
-			FW.TRACKING.iframe.setAttribute("style", 'visibility:hidden;position:absolute;top:0px;left:0px;width:1px;height:1px;');
-			FW.TRACKING.iframe.setAttribute("id", "FW_TRACKING_IFRAME");
-			document.body.appendChild(FW.TRACKING.iframe);
+			eDetailer.TRACKING.iframe = document.createElement("iframe");
+			eDetailer.TRACKING.iframe.setAttribute("style", 'visibility:hidden;position:absolute;top:0px;left:0px;width:1px;height:1px;');
+			eDetailer.TRACKING.iframe.setAttribute("id", "eDetailer_TRACKING_IFRAME");
+			document.body.appendChild(eDetailer.TRACKING.iframe);
 		}
 
-		FW.TRACKING.iframe.src = request;
+		eDetailer.TRACKING.iframe.src = request;
 	}
 
 	/**
@@ -1087,11 +1106,11 @@
 	 * @param {function} callback
 	 *   - Name of callback function to call
 	 */
-	FW.TRACKING.addCallback = function(callback)
+	eDetailer.TRACKING.addCallback = function(callback)
 	{
 		if(typeof(callback) == "function")
 		{
-			FW.TRACKING.callbacks.push(callback);
+			eDetailer.TRACKING.callbacks.push(callback);
 		}
 	}
 
@@ -1105,14 +1124,14 @@
 	 * @param {object} result
 	 *   - JSON object returned by iRep
 	 */
-	FW.TRACKING.result = function(result)
+	eDetailer.TRACKING.result = function(result)
 	{
-		for(var i=0; i < FW.TRACKING.callbacks.length; i++)
+		for(var i=0; i < eDetailer.TRACKING.callbacks.length; i++)
 		{
 			// result is a json object passed in by iRep media player
 			// this can be used to display success/error messages for
 			// debugging purposes
-			FW.TRACKING.callbacks[i](result);
+			eDetailer.TRACKING.callbacks[i](result);
 		}
 	}
 
@@ -1120,14 +1139,14 @@
 	 * <p><strong>Log Messages to the Debug Console</strong></p>
 	 *
 	 * <p>Prints debug messages to the debug console if debugging is enabled</p>
-	 * <p>See: FW.SETTINGS.debug</p>
+	 * <p>See: eDetailer.SETTINGS.debug</p>
 	 *
 	 * @param {string} msg
 	 *   - Message to send to debug console
 	 */
-	FW.LOG = function(msg)
+	eDetailer.LOG = function(msg)
 	{
-		if(FW.SETTINGS.debug)
+		if(eDetailer.SETTINGS.debug)
 		{
 			$('#console').append(msg + '<br>');
 			$("#console")[0].scrollTop = $("#console")[0].scrollHeight;
@@ -1138,6 +1157,6 @@
 	/**
 	 * Call init on DOM load
 	 */
-	$(function() { FW.INIT(); });
+	$(function() { eDetailer.INIT(); });
 
-}(FW = window.FW || {}, Zepto));
+}(eDetailer = window.eDetailer || {}, Zepto));
