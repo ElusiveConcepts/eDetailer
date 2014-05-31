@@ -24,7 +24,7 @@
 	"buttonbar" : [
 		{
 			"id"    : "Home",
-			"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
 			"title" : "Home",
 			"type"  : "button"
 		},
@@ -42,13 +42,13 @@
 		},
 		{
 			"id"    : "ISI",
-			"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax', 'isi-popup');",
+			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/isi.html', 'ajax', 'isi-popup');",
 			"title" : "Important Safety Information",
 			"type"  : "button"
 		},
 		{
 			"id"    : "REFS",
-			"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax', 'refs-popup');",
+			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax', 'refs-popup');",
 			"title" : "References",
 			"type"  : "button"
 		}

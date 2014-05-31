@@ -6,17 +6,17 @@
  * hook callbacks on to specific slides:
  *
  * @example On Slide Load:
- *    FW.PAGE.onLoad(<page_id>, <function>);
+ *    eDetailer.PAGE.onLoad(<page_id>, <function>);
  * @example On Slide Visible:
- *    FW.PAGE.onVisible(<page_id>, <function>);
+ *    eDetailer.PAGE.onVisible(<page_id>, <function>);
  */
 
 /**
  * Framework Setting Overrides
  */
-FW.SETTINGS.primary   = 'splash';
-FW.SETTINGS.faketouch = true;
-FW.SETTINGS.debug     = true;
+eDetailer.SETTINGS.primary   = 'splash';
+eDetailer.SETTINGS.faketouch = true;
+eDetailer.SETTINGS.debug     = true;
 
 /**
  * Global variables used across slides
@@ -29,8 +29,8 @@ var patient_selection = "";
 $(function()
 {
 	// Swiping (left/right)
-	$('#screens').on('swipeLeft',  function(e) { FW.PAGE.next(); });
-	$('#screens').on('swipeRight', function(e) { FW.PAGE.prev(); });
+	$('#screens').on('swipeLeft',  function(e) { eDetailer.PAGE.next(); });
+	$('#screens').on('swipeRight', function(e) { eDetailer.PAGE.prev(); });
 
 	// Swiping (up/down)
 	//$('#screens').on('swipeUp', function(e) { alert('Up!'); });
@@ -46,13 +46,13 @@ $(function()
  */
 
 /* Splash */
-FW.PAGE.onLoad('splash', function()
+eDetailer.PAGE.onLoad('splash', function()
 {
 
 });
 
 /* Slide 0.0.0 */
-FW.PAGE.onLoad('slide.0.0.0', function()
+eDetailer.PAGE.onLoad('slide.0.0.0', function()
 {
 
 });
@@ -62,4 +62,4 @@ FW.PAGE.onLoad('slide.0.0.0', function()
  * Let Framework know slides.js is loaded
  * REQUIRED! DO NOT REMOVE
  */
-FW.SLIDESJS = true;
+eDetailer.SLIDESJS = true;

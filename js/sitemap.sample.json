@@ -12,7 +12,7 @@
  * @property {object} sitemap
  *    Contains sitemap data
  * @property {array} sitemap.pages
- *   Array of page objects (see FW.PAGE)
+ *   Array of page objects (see eDetailer.PAGE)
  * @property {array} sitemap.buttonbar
  *   Array of button objects (same as pages)
  * @property {object} sitemap.paths
@@ -23,7 +23,7 @@
 
 	/**
 	 * The "pages" array contains any number of nested page objects,
-	 * each of which has the following properties (see FW.PAGE):
+	 * each of which has the following properties (see eDetailer.PAGE):
 	 *
 	 * @property {string} id
 	 *   - ID used to reference the page (also used for tracking)
@@ -67,7 +67,7 @@
 
 	/**
 	 * The "buttonbar" array contains any number of button objects,
-	 * each of which has the following properties (see FW.PAGE):
+	 * each of which has the following properties (see eDetailer.PAGE):
 	 *
 	 * @property {string} id
 	 *   - ID used to reference the button
@@ -83,7 +83,7 @@
 	"buttonbar" : [
 		{
 			"id"    : "Home",
-			"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
 			"title" : "Home",
 			"type"  : "button"
 		},
@@ -101,13 +101,13 @@
 		},
 		{
 			"id"    : "ISI",
-			"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax');",
+			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/isi.html', 'ajax');",
 			"title" : "Important Safety Information",
 			"type"  : "button"
 		},
 		{
 			"id"    : "REFS",
-			"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
 			"title" : "References",
 			"type"  : "button"
 		}
@@ -118,7 +118,7 @@
 	 * each of which lists (in order) a list of page IDs making a swipe
 	 * navigation path
 	 *
-	 * "default" path is required, but the name may be changed via FW.SETTINGS
+	 * "default" path is required, but the name may be changed via eDetailer.SETTINGS
 	 */
 
 	"paths" : {
