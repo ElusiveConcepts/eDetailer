@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Class: eDetailer.SITEMAP</title>
+
+	<script src="scripts/prettify/prettify.js"> </script>
+	<script src="scripts/prettify/lang-css.js"> </script>
+	<!--[if lt IE 9]>
+	<script src="scripts/html5.shiv.js"></script>
+	<![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+	<link type="text/css" rel="stylesheet" href="styles/carbon-default.css">
+</head>
+
+<body>
+	<header>
+		<h1 class="page-title">Class: eDetailer.SITEMAP</h1>
+	</header>
+
+	<div id="main">
+		
+
+
+
+<section>
+
+<header>
+    <h2>
+        <span class="ancestors"><a href="eDetailer.html">eDetailer</a>.</span>
+    
+    SITEMAP
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+	<!-- MODULE -->
+    
+
+	<!-- DESCRIPTION -->
+	
+		<div class="description"><h3>Sitemap Object</h3>
+
+<p>The sitemap object contains information about the pages, navigation
+and defined swipe paths within the eDetail presentation.</p>
+<p>Note: By default this object is empty and is populated on load from
+the sitemap JSON file (js/sitemap.json), only the loaded property is
+included by default.</p>
+<p><em>For more information, see sample.sitemap.json</em></p></div>
+	
+
+	<!-- DETAILS -->
+	
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line682">line 682</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    </div>
+
+	<!-- PROPERTIES -->
+	
+		<h4 class="subsection-title">Properties:</h4>
+		<dl>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>loaded</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{boolean}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                	optional<br>
+					
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">- true if the sitemap JSON is loaded</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{array}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                	
+					
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Array of page objects</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buttonbar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{array}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                	
+					
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Array of buttons for button bar</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paths</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                	
+					
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Collection of segmentation path arrays (at least one required)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                	
+					
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Auto-Generated reverse lookup of sitemap entries by ID</td>
+        </tr>
+
+    
+    </tbody>
+</table></dl>
+	
+
+	<!-- AUGMENTS -->
+    
+
+	<!-- MIXES -->
+    
+
+	<!-- REQUIRES -->
+    
+
+	<!-- CLASSES -->
+    
+
+	<!-- NAMESPACES -->
+    
+
+	<!-- MEMBERS -->
+    
+
+	<!-- METHODS -->
+    
+        <h4 class="subsection-title">Methods</h4>
+		<div class="itemset">
+            
+<div class="item">
+	<h5 class="name" id="createIndex"><span class="type-signature">&lt;static> </span>eDetailer.SITEMAP.createIndex<span class="signature">(pages, <span class="optional">parent</span>)</span><span class="type-signature"></span></h5>
+	<p class="summary">Sitemap Indexer</p>
+
+	
+	<div class="description"><p>Recursive function to build an index of pages for faster access.</p>
+<p>Note: If pages are added to the sitemap dynamically after the initial
+load, you will need to call this function to rebuild the index.</p></div>
+	
+
+    
+
+	
+
+	
+	<div class="parameters">
+		<h6>Parameters:</h6>
+		
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{array}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                
+                
+                </td>
+            
+
+            
+
+            <td class="description last">- Array of page objects</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                optional<br>
+                
+                
+                </td>
+            
+
+            
+
+            <td class="description last">- Parent Node</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+	</div>
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line731">line 731</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        
+            
+<div class="item">
+	<h5 class="name" id="setPath"><span class="type-signature">&lt;static> </span>eDetailer.SITEMAP.setPath<span class="signature">(path)</span><span class="type-signature"></span></h5>
+	<p class="summary">Set Segmentation Path</p>
+
+	
+	<div class="description"><p>Sets the current segmentation path and adjusts the current
+path position to the proper slide, or a default location in the
+path (usually the start)</p></div>
+	
+
+    
+
+	
+
+	
+	<div class="parameters">
+		<h6>Parameters:</h6>
+		
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{string}</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">- Name of segmentation path</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+	</div>
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line696">line 696</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        </div>
+    
+
+	<!-- TYPE DEFINITIONS -->
+    
+
+	<!-- EVENTS -->
+    
+
+	<!-- EXAMPLES -->
+	
+
+</article>
+
+</section>
+
+
+
+
+	</div>
+
+	<nav>
+		<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="eDetailer.html">eDetailer</a></li></ul><h3>Modules</h3><ul><li><a href="module-JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="eDetailer.LIGHTBOX.html">eDetailer.LIGHTBOX</a></li><li><a href="eDetailer.NAV.html">eDetailer.NAV</a></li><li><a href="eDetailer.PAGE.html">eDetailer.PAGE</a></li><li><a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS</a></li><li><a href="eDetailer.SITEMAP.html">eDetailer.SITEMAP</a></li><li><a href="eDetailer.TABS.html">eDetailer.TABS</a></li><li><a href="eDetailer.TRACKING.html">eDetailer.TRACKING</a></li><li><a href="JSON.sitemap.html">JSON.sitemap</a></li><li><a href="JSON.sitemap.buttonbar.BUTTON.html">JSON.sitemap.buttonbar.BUTTON</a></li><li><a href="JSON.sitemap.pages.PAGE.html">JSON.sitemap.pages.PAGE</a></li><li><a href="JSON.sitemap.paths.html">JSON.sitemap.paths</a></li></ul>
+	</nav>
+
+	<footer>
+		<p id="copyright">Copyright &copy; 2014 Roger Soucy, Inc. All rights reserved.</p>
+		<p id="modified">Last modified on Thu Jun 05 2014 14:03:30 GMT-0400 (EDT)</p>
+	</footer>
+
+	<script> prettyPrint(); </script>
+	<script src="scripts/linenumber.js"> </script>
+	<script src="scripts/carbon.js"> </script>
+</body>
+</html>

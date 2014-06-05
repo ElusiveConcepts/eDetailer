@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Class: eDetailer.LIGHTBOX</title>
+
+	<script src="scripts/prettify/prettify.js"> </script>
+	<script src="scripts/prettify/lang-css.js"> </script>
+	<!--[if lt IE 9]>
+	<script src="scripts/html5.shiv.js"></script>
+	<![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+	<link type="text/css" rel="stylesheet" href="styles/carbon-default.css">
+</head>
+
+<body>
+	<header>
+		<h1 class="page-title">Class: eDetailer.LIGHTBOX</h1>
+	</header>
+
+	<div id="main">
+		
+
+
+
+<section>
+
+<header>
+    <h2>
+        <span class="ancestors"><a href="eDetailer.html">eDetailer</a>.</span>
+    
+    LIGHTBOX
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+	<!-- MODULE -->
+    
+
+	<!-- DESCRIPTION -->
+	
+		<div class="description"><h3>Lightbox Object</h3>
+
+<p>Encapsulates methods for loading content, showing, and hiding the
+lightbox.</p></div>
+	
+
+	<!-- DETAILS -->
+	
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line1017">line 1017</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    </div>
+
+	<!-- PROPERTIES -->
+	
+		<h4 class="subsection-title">Properties:</h4>
+		<dl>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>container</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">- Lightbox DOM element</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">- Lightbox content DOM element</td>
+        </tr>
+
+    
+    </tbody>
+</table></dl>
+	
+
+	<!-- AUGMENTS -->
+    
+
+	<!-- MIXES -->
+    
+
+	<!-- REQUIRES -->
+    
+
+	<!-- CLASSES -->
+    
+
+	<!-- NAMESPACES -->
+    
+
+	<!-- MEMBERS -->
+    
+
+	<!-- METHODS -->
+    
+        <h4 class="subsection-title">Methods</h4>
+		<div class="itemset">
+            
+<div class="item">
+	<h5 class="name" id="hide"><span class="type-signature">&lt;static> </span>eDetailer.LIGHTBOX.hide<span class="signature">(<span class="optional">e</span>)</span><span class="type-signature"></span></h5>
+	<p class="summary">Hide Lightbox</p>
+
+	
+	<div class="description"><p>Hides active lightbox and overlay</p></div>
+	
+
+    
+
+	
+
+	
+	<div class="parameters">
+		<h6>Parameters:</h6>
+		
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{object}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                optional<br>
+                
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Event (such as a click event) to stop bubbling</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+	</div>
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line1086">line 1086</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        
+            
+<div class="item">
+	<h5 class="name" id="show"><span class="type-signature">&lt;static> </span>eDetailer.LIGHTBOX.show<span class="signature">(content, <span class="optional">source</span>, <span class="optional">addclass</span>)</span><span class="type-signature"></span></h5>
+	<p class="summary">Show Lightbox</p>
+
+	
+	<div class="description"><p>Adds an 'active' class to the lightbox and loads content
+(content can be passed directly, referenced by ID, or called
+via AJAX request)</p></div>
+	
+
+    
+
+	
+
+	
+	<div class="parameters">
+		<h6>Parameters:</h6>
+		
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{string}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Popup content, Element ID, or filename</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{string}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                optional<br>
+                
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "passed"
+                
+                </td>
+            
+
+            <td class="description last">- Source of the content, options are:<br>
+    "passed" = value of content parameter is shown<br>
+    "inline" = inner HTML of element with matching ID is shown<br>
+    "ajax"   = contents of file are shown<br>
+    "image"  = image file is shown</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>addclass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{string}</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                optional<br>
+                
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">- Optionally assign a class to the lightbox DOM element</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+	</div>
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line1040">line 1040</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        </div>
+    
+
+	<!-- TYPE DEFINITIONS -->
+    
+
+	<!-- EVENTS -->
+    
+
+	<!-- EXAMPLES -->
+	
+
+</article>
+
+</section>
+
+
+
+
+	</div>
+
+	<nav>
+		<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="eDetailer.html">eDetailer</a></li></ul><h3>Modules</h3><ul><li><a href="module-JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="eDetailer.LIGHTBOX.html">eDetailer.LIGHTBOX</a></li><li><a href="eDetailer.NAV.html">eDetailer.NAV</a></li><li><a href="eDetailer.PAGE.html">eDetailer.PAGE</a></li><li><a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS</a></li><li><a href="eDetailer.SITEMAP.html">eDetailer.SITEMAP</a></li><li><a href="eDetailer.TABS.html">eDetailer.TABS</a></li><li><a href="eDetailer.TRACKING.html">eDetailer.TRACKING</a></li><li><a href="JSON.sitemap.html">JSON.sitemap</a></li><li><a href="JSON.sitemap.buttonbar.BUTTON.html">JSON.sitemap.buttonbar.BUTTON</a></li><li><a href="JSON.sitemap.pages.PAGE.html">JSON.sitemap.pages.PAGE</a></li><li><a href="JSON.sitemap.paths.html">JSON.sitemap.paths</a></li></ul>
+	</nav>
+
+	<footer>
+		<p id="copyright">Copyright &copy; 2014 Roger Soucy, Inc. All rights reserved.</p>
+		<p id="modified">Last modified on Thu Jun 05 2014 14:03:30 GMT-0400 (EDT)</p>
+	</footer>
+
+	<script> prettyPrint(); </script>
+	<script src="scripts/linenumber.js"> </script>
+	<script src="scripts/carbon.js"> </script>
+</body>
+</html>

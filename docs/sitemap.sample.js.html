@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Source: sitemap.sample.js</title>
+
+	<script src="scripts/prettify/prettify.js"> </script>
+	<script src="scripts/prettify/lang-css.js"> </script>
+	<!--[if lt IE 9]>
+	<script src="scripts/html5.shiv.js"></script>
+	<![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+	<link type="text/css" rel="stylesheet" href="styles/carbon-default.css">
+</head>
+
+<body>
+	<header>
+		<h1 class="page-title">Source: sitemap.sample.js</h1>
+	</header>
+
+	<div id="main">
+		
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * &lt;h3>Sitemap JSON Structure&lt;/h3>
+ * &lt;p>This file describes the structure of the sitemap.json file.
+ * You may use this as a starting point in creating your own sitemap.json
+ * file, but remember to remove all comments.&lt;/p>
+ *
+ * &lt;p>Note: the sitemap.json file must be &lt;strong>VALID JSON&lt;/strong>, or
+ * else the framework will not work.&lt;/p>
+ *
+ * &lt;p>This JSON Structure contains the following elements:&lt;/p>
+ * &lt;ul>
+ * &lt;li>[sitemap]{@link JSON.sitemap}&lt;/li>
+ * &lt;li>[sitemap.pages]{@link JSON.sitemap.pages}&lt;/li>
+ * &lt;li>[sitemap.buttonbar]{@link JSON.sitemap.buttonbar}&lt;/li>
+ * &lt;li>[sitemap.paths]{@link JSON.sitemap.paths}&lt;/li>
+ * &lt;/ul>
+ *
+ * @author Roger Soucy &lt;roger.soucy@havashealth.com>
+ * @version 1.0.0
+ *
+ * @module
+ * @name JSON
+ * @alias SITEMAP.JSON
+ * @global
+ */
+var JSON = { /** @lends JSON */
+
+	/**
+	 * &lt;h3>Sitemap Object&lt;/h3>
+	 *
+	 * &lt;p>The "sitemap" object contains three child objects: an array
+	 * of page objects, an array of buttons, and a named array
+	 * (object) of swipe paths.&lt;/p>
+	 * &lt;p>The properties and members of this object are added to
+	 * [eDetailer.SITEMAP]{@link eDetailer.SITEMAP}.&lt;/p>
+	 *
+	 * @summary Sitemap Object
+	 *
+	 * @class
+	 * @augments eDetailer.SITEMAP
+	 * @memberof JSON
+	 */
+	"sitemap" : {
+
+		/**
+		 * &lt;p>The "pages" array contains any number of nested page objects,
+		 * each of which has the following properties.&lt;/p>
+		 * &lt;p>See [JSON.sitemap.pages.PAGE]{@link JSON.sitemap.pages.PAGE}
+		 * or [eDetailer.PAGE]{@link eDetailer.PAGE}&lt;/p>
+		 *
+		 * @summary Array of Presentation Pages
+		 *
+		 * @type {array}
+		 */
+		"pages" : [
+			/**
+			 * &lt;h3>Sitemap.json Page Class&lt;/h3>
+			 *
+			 * desc
+			 *
+			 * @summary Sitemap.json Page Class
+			 *
+			 * @class
+			 * @name PAGE
+			 * @memberof JSON.sitemap.pages
+			 *
+			 * @property {string} id
+			 *   - ID used to reference the page (also used for tracking)
+			 * @property {string} title
+			 *   - Title of the page (used in navigation and tracking)
+			 * @property {String} type
+			 *   - Type of page/sitemap entry [page, hidden, header, button]&lt;ul>
+			 *   &lt;li>page : Normal page/slide, appears in all menus&lt;/li>
+			 *   &lt;li>hidden : normal page/slide, but does not appear in menus&lt;/li>
+			 *   &lt;li>header : Accordian or Section header, appears in most menus&lt;/li>
+			 *   &lt;li>button : Appears in some menus, file content is placed in HREF&lt;/li>&lt;/ul>
+			 * @property {string} [file]
+			 *   - Path and filename of the source code for the page, or HREF
+			 *     content in the case of buttons
+			 * @property {array} [children]
+			 *   - An array of child (nested) page objects, no depth limit
+			 *
+			 * @example &lt;caption>Create an accordian menu header&lt;/caption>
+			 * {
+			 * 	"id"    : "header.0.0.0",
+			 * 	"file"  : "", // Not necessary as this doesn't link to a page
+			 * 	"title" : "Section Header",
+			 * 	"type"  : "header",
+			 * }
+			 *
+			 * @example &lt;caption>Create a standard page entry (visible in menus)&lt;/caption>
+			 * {
+			 * 	"id"    : "slide.0.0.0",
+			 * 	"file"  : "slides/slide.0.0.0.html",
+			 * 	"title" : "Slide Title",
+			 * 	"type"  : "page"
+			 * }
+			 *
+			 * @example &lt;caption>Create a standard page entry with children&lt;/caption>
+			 * {
+			 * 	"id"    : "slide.1.0.0",
+			 * 	"file"  : "slides/slide.1.0.0.html",
+			 * 	"title" : "Slide Title",
+			 * 	"type"  : "page",
+			 * 	"children" : [
+			 * 		{
+			 * 			"id"    : "slide.1.1.0",
+			 * 			"file"  : "slides/slide.1.1.0.html",
+			 * 			"title" : "Sub Slide Title",
+			 * 			"type"  : "page"
+			 * 		}
+			 * 	]
+			 * }
+			 *
+			 * @example &lt;caption>Create a hidden page entry (not visible in menus)&lt;/caption>
+			 * {
+			 * 	"id"    : "splash",
+			 * 	"file"  : "slides/splash.html",
+			 * 	"title" : "Splash Page",
+			 * 	"type"  : "hidden"
+			 * }
+			 *
+			 * @example &lt;caption>Create a button&lt;/caption>
+			 * {
+			 * 	"id"    : "REFS",
+			 * 	"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"title" : "References",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 */
+			{
+				"id"    : "splash",
+				"file"  : "slides/splash.html",
+				"title" : "Splash Page",
+				"type"  : "hidden"
+			},
+			{
+				"id"       : "header.0.0.0",
+				"file"     : "",
+				"title"    : "Section Header",
+				"type"     : "header",
+				"children" : [
+					{
+						"id"    : "slide.0.0.0",
+						"file"  : "slides/slide.0.0.0.html",
+						"title" : "Slide Title",
+						"type"  : "page"
+					}
+				]
+			}
+		],
+
+		/**
+		 * &lt;p>The "buttonbar" array contains any number of button objects&lt;/p>
+		 * &lt;p>See [JSON.sitemap.buttonbar.BUTTON]{@link JSON.sitemap.buttonbar.BUTTON}&lt;/p>
+		 *
+		 * @summary Button Bar Navigation Elements
+		 *
+		 * @type {array}
+		 */
+		"buttonbar" : [
+
+			/**
+			 * &lt;h3>Sitemap.json Button Class&lt;/h3>
+			 *
+			 * desc
+			 *
+			 * @summary Sitemap.json Button Class
+			 *
+			 * @class
+			 * @name BUTTON
+			 * @memberof JSON.sitemap.buttonbar
+			 *
+			 * @property {string} id
+			 *   - ID used to reference the button
+			 * @property {string} [file]
+			 *   - HREF content (path, link, or JavaScript)
+			 * @property {string} title
+			 *   - Title of the button
+			 * @property {string} type
+			 *   - Type of entry [button]&lt;ul>
+			 *   &lt;li>button : Appears in some menus, file content is placed in HREF&lt;/li>&lt;/ul>
+			 *
+			 * @example &lt;caption>Describe a button to load a slide&lt;/caption>
+			 * {
+			 * 	"id"    : "Home",
+			 * 	"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
+			 * 	"title" : "Home",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example &lt;caption>Describe a button to display a lightbox&lt;/caption>
+			 * {
+			 * 	"id"    : "REFS",
+			 * 	"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"title" : "References",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example &lt;caption>Describe a button to load a local file&lt;/caption>
+			 * {
+			 * 	"id"    : "PI",
+			 * 	"file"  : "pdfs/prescribing_information.pdf",
+			 * 	"title" : "Prescribing Information",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example &lt;caption>Describe a button to load an external site&lt;/caption>
+			 * {
+			 * 	"id"    : "example_com",
+			 * 	"file"  : "http://www.example.com",
+			 * 	"title" : "example.com",
+			 * 	"type"  : "button"
+			 * }
+			 */
+			{
+				"id"    : "Home",
+				"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
+				"title" : "Home",
+				"type"  : "button"
+			},
+			{
+				"id"    : "PI",
+				"file"  : "pdfs/prescribing_information.pdf",
+				"title" : "Prescribing Information",
+				"type"  : "button"
+			},
+			{
+				"id"    : "MedGuide",
+				"file"  : "pdfs/medication_guide.pdf",
+				"title" : "Medication Guide",
+				"type"  : "button"
+			},
+			{
+				"id"    : "ISI",
+				"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/isi.html', 'ajax');",
+				"title" : "Important Safety Information",
+				"type"  : "button"
+			},
+			{
+				"id"    : "REFS",
+				"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
+				"title" : "References",
+				"type"  : "button"
+			}
+		],
+
+		/**
+		 * &lt;h3>Sitemap.json Paths Class&lt;/h3>
+		 *
+		 * &lt;p>The "paths" object contains any number of named path arrays,
+		 * each of which lists (in order) a list of page IDs making a swipe
+		 * navigation path.&lt;/p>
+		 *
+		 * &lt;p>"default" path is required, but the name may be changed via
+		 * [eDetailer.SETTINGS.primary]{@link eDetailer.SETTINGS.primary}&lt;/p>
+		 *
+		 * @summary Named Array (object) of Swipe Paths
+		 *
+		 * @class
+		 * @memberof JSON.sitemap
+		 *
+		 * @property {array} default
+		 *   - Primary swipe path
+		 * @property {array} [&amp;lt;name&amp;gt;]
+		 *   - Additional named swipe paths
+		 */
+
+		"paths" : {
+			"default"   : [
+				"slide.0.0.0","slide.1.0.0","slide.1.1.0","slide.1.2.0",
+				"slide.1.3.0","slide.2.0.0","slide.2.1.0","slide.2.2.0",
+				"slide.3.0.0","slide.3.1.0","slide.3.2.0","slide.3.3.0",
+				"slide.3.4.0","slide.4.0.0","slide.4.1.0","slide.4.2.0",
+				"slide.5.0.0","slide.5.1.0","slide.6.0.0"
+			],
+			"segment_1" : [
+				"slide.0.0.0","slide.0.2.0","slide.5.0.0","slide.1.0.0",
+				"slide.1.2.0","slide.3.0.0"
+			]
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+	</div>
+
+	<nav>
+		<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="eDetailer.html">eDetailer</a></li></ul><h3>Modules</h3><ul><li><a href="module-JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="eDetailer.LIGHTBOX.html">eDetailer.LIGHTBOX</a></li><li><a href="eDetailer.NAV.html">eDetailer.NAV</a></li><li><a href="eDetailer.PAGE.html">eDetailer.PAGE</a></li><li><a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS</a></li><li><a href="eDetailer.SITEMAP.html">eDetailer.SITEMAP</a></li><li><a href="eDetailer.TABS.html">eDetailer.TABS</a></li><li><a href="eDetailer.TRACKING.html">eDetailer.TRACKING</a></li><li><a href="JSON.sitemap.html">JSON.sitemap</a></li><li><a href="JSON.sitemap.buttonbar.BUTTON.html">JSON.sitemap.buttonbar.BUTTON</a></li><li><a href="JSON.sitemap.pages.PAGE.html">JSON.sitemap.pages.PAGE</a></li><li><a href="JSON.sitemap.paths.html">JSON.sitemap.paths</a></li></ul>
+	</nav>
+
+	<footer>
+		<p id="copyright">Copyright &copy; 2014 Roger Soucy, Inc. All rights reserved.</p>
+		<p id="modified">Last modified on Thu Jun 05 2014 14:03:30 GMT-0400 (EDT)</p>
+	</footer>
+
+	<script> prettyPrint(); </script>
+	<script src="scripts/linenumber.js"> </script>
+	<script src="scripts/carbon.js"> </script>
+</body>
+</html>

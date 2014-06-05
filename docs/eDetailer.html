@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Namespace: eDetailer</title>
+
+	<script src="scripts/prettify/prettify.js"> </script>
+	<script src="scripts/prettify/lang-css.js"> </script>
+	<!--[if lt IE 9]>
+	<script src="scripts/html5.shiv.js"></script>
+	<![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+	<link type="text/css" rel="stylesheet" href="styles/carbon-default.css">
+</head>
+
+<body>
+	<header>
+		<h1 class="page-title">Namespace: eDetailer</h1>
+	</header>
+
+	<div id="main">
+		
+
+
+
+<section>
+
+<header>
+    <h2>
+    eDetailer
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+	<!-- MODULE -->
+    
+
+	<!-- DESCRIPTION -->
+	
+		<div class="description"><h3>eDetail Presentation Framework</h3>
+
+<p>This global object encapsulates all variables and methods
+used within the framework and acts as a namespace.</p></div>
+	
+
+	<!-- DETAILS -->
+	
+<dl class="details">
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version">0.00.001</dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">&lt;a href="mailto:roger.soucy@elusive-concepts.com">Roger Soucy&lt;/a><br></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line1">line 1</a></dd>
+    
+
+    
+
+    
+
+    
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">Separate into component source files and write build scripts<br></dd>
+    
+</dl>
+
+    </div>
+
+	<!-- PROPERTIES -->
+	
+
+	<!-- AUGMENTS -->
+    
+
+	<!-- MIXES -->
+    
+
+	<!-- REQUIRES -->
+    
+        <h4 class="subsection-title">Requires</h4>
+        <ul>
+            <li>module:external:Zepto</li>
+        </ul>
+    
+
+	<!-- CLASSES -->
+    
+        <h4 class="subsection-title">Classes</h4>
+        <dl>
+            <dt><a href="eDetailer.LIGHTBOX.html">eDetailer.LIGHTBOX</a></dt>
+            <dd>Lightbox (modal) Controls</dd>
+        
+            <dt><a href="eDetailer.NAV.html">eDetailer.NAV</a></dt>
+            <dd>Navigation Controls and Generation</dd>
+        
+            <dt><a href="eDetailer.PAGE.html">eDetailer.PAGE</a></dt>
+            <dd>Page Controls, Information, and Navigation</dd>
+        
+            <dt><a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS</a></dt>
+            <dd>Framework Settings</dd>
+        
+            <dt><a href="eDetailer.SITEMAP.html">eDetailer.SITEMAP</a></dt>
+            <dd>Sitemap Contents, Indexes, and Pathing</dd>
+        
+            <dt><a href="eDetailer.TABS.html">eDetailer.TABS</a></dt>
+            <dd>Tabbed Content Controls</dd>
+        
+            <dt><a href="eDetailer.TRACKING.html">eDetailer.TRACKING</a></dt>
+            <dd>ClickStream Tracking Controls</dd>
+        </dl>
+    
+
+	<!-- NAMESPACES -->
+    
+
+	<!-- MEMBERS -->
+    
+        <h4 class="subsection-title">Members</h4>
+        <div class="itemset">
+            
+<div class="item">
+	<h5 class="name" id="clickEvent"><span class="type-signature">&lt;static, readonly> </span>eDetailer.clickEvent<span class="type-signature"> :string</span></h5>
+	
+
+    
+    <div class="description"><p>Used to set default click events to touches on iPad</p>
+<ul>
+  <li>eDetailer.clickEvent = "touchend"; on touch devices</li>
+  <li>eDetailer.clickEvent = "mouseup"; on non-touch devices</li>
+</ul></div>
+    
+
+    
+    <div class="type">
+        <h6>Type: 
+<span class="param-type">{string}</span>
+
+</h6>
+	</div>
+    
+
+    
+
+    
+    <div class="example">
+        <h6>Example</h6>
+        
+
+
+	
+    <p class="code-caption">Example usage of eDetailer.clickEvent</p>
+    
+    <pre class="prettyprint"><code>$('#id').on(eDetailer.clickEvent, function(e) { ... });</code></pre>
+
+	</div>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line69">line 69</a></dd>
+    
+
+    
+
+    
+
+    
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">Rename this to eDetailer.CLICKEVENT<br></dd>
+    
+</dl>
+
+
+</div>
+
+        
+            
+<div class="item">
+	<h5 class="name" id="SLIDESJS"><span class="type-signature">&lt;static> </span>eDetailer.SLIDESJS<span class="type-signature"> :boolean</span></h5>
+	
+
+    
+    <div class="description"><p>Set eDetailer.SLIDESJS = true; at the end of slides.js or else
+framework will not work (initialization requires this)</p></div>
+    
+
+    
+    <div class="type">
+        <h6>Type: 
+<span class="param-type">{boolean}</span>
+
+</h6>
+	</div>
+    
+
+    
+
+    
+    <div class="example">
+        <h6>Example</h6>
+        
+
+
+	
+    <p class="code-caption">Set to true for framework initialization</p>
+    
+    <pre class="prettyprint"><code>eDetailer.SLIDESJS = true;</code></pre>
+
+	</div>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line116">line 116</a></dd>
+    
+
+    
+
+    
+
+    
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">change this to be more event based<br></dd>
+    
+</dl>
+
+
+</div>
+
+        </div>
+    
+
+	<!-- METHODS -->
+    
+        <h4 class="subsection-title">Methods</h4>
+		<div class="itemset">
+            
+<div class="item">
+	<h5 class="name" id="currentPage"><span class="type-signature">&lt;static> </span>eDetailer.currentPage<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h5>
+	<p class="summary">Return the Current Page ID</p>
+
+	
+	<div class="description"><p>Returns the sitemap id of the active page/slide in the
+presentation</p></div>
+	
+
+    
+
+	
+
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+	<div class="returns">
+		<h6>Returns:</h6>
+		
+			
+<div class="param-desc">
+
+</div>
+
+
+
+	
+<span class="param-type">{string}</span>
+
+
+
+- Current page ID
+
+
+		
+    </div>
+    
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+	<dt class="important tag-deprecated">Deprecated:</dt><dd>You should use eDetailer.PAGE.id instead.</dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line307">line 307</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        
+            
+<div class="item">
+	<h5 class="name" id="INIT"><span class="type-signature">&lt;static> </span>eDetailer.INIT<span class="signature">()</span><span class="type-signature"></span></h5>
+	<p class="summary">Call Framework Initialization</p>
+
+	
+	<div class="description"><p>Loads the sitemap and calls buildMenu, then sets up basic
+touch events and navigation button events</p>
+<p>Looks for slides.js to be loaded (as set by eDetailer.SLIDESJS = true)
+and initializes framework, otherwise delays for 100 ms and retries</p>
+<p>Note: You <u>MUST</u> set eDetailer.SLIDESJS = true at the end of
+slides.js or the framework will not load!</p>
+<p><em>Called Automatically By Framework - Do not call directly</em></p></div>
+	
+
+    
+
+	
+
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line149">line 149</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        
+            
+<div class="item">
+	<h5 class="name" id="LOG"><span class="type-signature">&lt;static> </span>eDetailer.LOG<span class="signature">(msg)</span><span class="type-signature"></span></h5>
+	<p class="summary">Log Messages to the Debug Console</p>
+
+	
+	<div class="description"><p>Prints debug messages to the debug console if debugging is enabled</p>
+<p>See: <a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS.debug</a></p></div>
+	
+
+    
+
+	
+
+	
+	<div class="parameters">
+		<h6>Parameters:</h6>
+		
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">{string}</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">- Message to send to debug console</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+	</div>
+	
+
+    
+
+	
+
+    
+
+    
+
+    
+
+	
+
+	
+
+    
+<dl class="details">
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since">1.4.0</dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><a href="framework.js.html">framework.js</a>, <a href="framework.js.html#line129">line 129</a></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+</div>
+
+        </div>
+    
+
+	<!-- TYPE DEFINITIONS -->
+    
+
+	<!-- EVENTS -->
+    
+
+	<!-- EXAMPLES -->
+	
+
+</article>
+
+</section>
+
+
+
+
+	</div>
+
+	<nav>
+		<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="eDetailer.html">eDetailer</a></li></ul><h3>Modules</h3><ul><li><a href="module-JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="eDetailer.LIGHTBOX.html">eDetailer.LIGHTBOX</a></li><li><a href="eDetailer.NAV.html">eDetailer.NAV</a></li><li><a href="eDetailer.PAGE.html">eDetailer.PAGE</a></li><li><a href="eDetailer.SETTINGS.html">eDetailer.SETTINGS</a></li><li><a href="eDetailer.SITEMAP.html">eDetailer.SITEMAP</a></li><li><a href="eDetailer.TABS.html">eDetailer.TABS</a></li><li><a href="eDetailer.TRACKING.html">eDetailer.TRACKING</a></li><li><a href="JSON.sitemap.html">JSON.sitemap</a></li><li><a href="JSON.sitemap.buttonbar.BUTTON.html">JSON.sitemap.buttonbar.BUTTON</a></li><li><a href="JSON.sitemap.pages.PAGE.html">JSON.sitemap.pages.PAGE</a></li><li><a href="JSON.sitemap.paths.html">JSON.sitemap.paths</a></li></ul>
+	</nav>
+
+	<footer>
+		<p id="copyright">Copyright &copy; 2014 Roger Soucy, Inc. All rights reserved.</p>
+		<p id="modified">Last modified on Thu Jun 05 2014 14:03:30 GMT-0400 (EDT)</p>
+	</footer>
+
+	<script> prettyPrint(); </script>
+	<script src="scripts/linenumber.js"> </script>
+	<script src="scripts/carbon.js"> </script>
+</body>
+</html>
