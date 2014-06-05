@@ -28,9 +28,12 @@ GitHub Repository: https://github.com/ElusiveConcepts/eDetailer
 [coming soon]
 
 ### Allowing File Access Locally
-Because the framework relies on AJAX to load pages, if you attempt to load the framework locally, most browsers will give you an error and fail to load the framework.
+Because the framework relies on AJAX to load pages, if you attempt to load the
+framework locally, most browsers will give you an error and fail to load the
+framework.
 
-To correct this, you can enable local file access on Google Chrome with the following command line switches:
+To correct this, you can enable local file access on Google Chrome with the
+following command line switches:
 `--allow-file-access-from-files`
 `--disable-web-security`
 
