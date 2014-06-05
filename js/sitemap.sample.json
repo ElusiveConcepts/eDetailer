@@ -32,12 +32,12 @@
 	 * of page objects, an array of buttons, and a named array
 	 * (object) of swipe paths.</p>
 	 * <p>The properties and members of this object are added to
-	 * [FW.SITEMAP]{@link FW.SITEMAP}.</p>
+	 * [eDetailer.SITEMAP]{@link eDetailer.SITEMAP}.</p>
 	 *
 	 * @summary Sitemap Object
 	 *
 	 * @class
-	 * @augments FW.SITEMAP
+	 * @augments eDetailer.SITEMAP
 	 * @memberof JSON
 	 */
 	"sitemap" : {
@@ -46,7 +46,7 @@
 		 * <p>The "pages" array contains any number of nested page objects,
 		 * each of which has the following properties.</p>
 		 * <p>See [JSON.sitemap.pages.PAGE]{@link JSON.sitemap.pages.PAGE}
-		 * or [FW.PAGE]{@link FW.PAGE}</p>
+		 * or [eDetailer.PAGE]{@link eDetailer.PAGE}</p>
 		 *
 		 * @summary Array of Presentation Pages
 		 *
@@ -123,7 +123,7 @@
 			 * @example <caption>Create a button</caption>
 			 * {
 			 * 	"id"    : "REFS",
-			 * 	"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
 			 * 	"title" : "References",
 			 * 	"type"  : "button"
 			 * }
@@ -185,7 +185,7 @@
 			 * @example <caption>Describe a button to load a slide</caption>
 			 * {
 			 * 	"id"    : "Home",
-			 * 	"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			 * 	"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
 			 * 	"title" : "Home",
 			 * 	"type"  : "button"
 			 * }
@@ -193,7 +193,7 @@
 			 * @example <caption>Describe a button to display a lightbox</caption>
 			 * {
 			 * 	"id"    : "REFS",
-			 * 	"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
 			 * 	"title" : "References",
 			 * 	"type"  : "button"
 			 * }
@@ -216,7 +216,7 @@
 			 */
 			{
 				"id"    : "Home",
-				"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+				"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
 				"title" : "Home",
 				"type"  : "button"
 			},
@@ -234,13 +234,13 @@
 			},
 			{
 				"id"    : "ISI",
-				"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax');",
+				"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/isi.html', 'ajax');",
 				"title" : "Important Safety Information",
 				"type"  : "button"
 			},
 			{
 				"id"    : "REFS",
-				"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+				"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
 				"title" : "References",
 				"type"  : "button"
 			}
@@ -254,7 +254,7 @@
 		 * navigation path.</p>
 		 *
 		 * <p>"default" path is required, but the name may be changed via
-		 * [FW.SETTINGS.primary]{@link FW.SETTINGS.primary}</p>
+		 * [eDetailer.SETTINGS.primary]{@link eDetailer.SETTINGS.primary}</p>
 		 *
 		 * @summary Named Array (object) of Swipe Paths
 		 *
