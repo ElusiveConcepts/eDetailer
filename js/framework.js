@@ -1,5 +1,5 @@
 /**
- * <p><strong>eDetailer - eDetail Presentation Framework</strong></p>
+ * <h3>eDetail Presentation Framework</h3>
  *
  * <p>This global object encapsulates all variables and methods
  * used within the framework and acts as a namespace.</p>
@@ -7,13 +7,14 @@
  * @author <a href="mailto:roger.soucy@elusive-concepts.com">Roger Soucy</a>
  * @version 0.00.001
  *
- * @requires Zepto or jQuery
- * @type {Object}
+ * @class
  * @name eDetailer
- * @namespace com.elusiveconcepts.edetailer
- *
+ * @global
+ * @type {Object}
  * @param {Object} eDetailer Self Reference
  * @param {object} $ Zepto or jQuery Object
+ * @namespace
+ * @requires external:Zepto
  *
  * @todo Separate into component source files and write build scripts
  */
@@ -21,7 +22,7 @@
 {/** @lends eDetailer */
 
 	/**
-	 * - Stores references to the DOM elements used for
+	 * Stores references to the DOM elements used for
 	 * screen swapping as well as the active screen
 	 */
 	var _display = {
@@ -29,40 +30,54 @@
 		"screens" : []
 	};
 
-	/** - Stores the current segmentation path */
+	/** Stores the current segmentation path */
 	var _path = false;
 
-	/** - Stores the current segmentation path position */
+	/** Stores the current segmentation path position */
 	var _path_pos = 0;
 
-	/** - Stores the current page id */
+	/** Stores the current page id */
 	var _page_id = false;
 
-	/** - Flag used to indate when in a locked section */
+	/** Flag used to indate when in a locked section */
 	var _locked = false;
 
-	/** - collection of callbacks for page loads */
+	/** Collection of callbacks for page loads */
 	var _callbacks = {};
 
-	/** - Track if user is dragging with a mouse */
+	/** Track if user is dragging with a mouse */
 	var _dragging = false;
 
-	/** - Store starting position of mouse drag */
+	/** Store starting position of mouse drag */
 	var _drag = { 'x': -1, 'y': -1};
 
-	/** - Used to default click events to touches on iPad */
+	/**
+	 * <p>Used to set default click events to touches on iPad</p>
+	 * <ul>
+	 *   <li>eDetailer.clickEvent = "touchend"; on touch devices</li>
+	 *   <li>eDetailer.clickEvent = "mouseup"; on non-touch devices</li>
+	 * </ul>
+	 *
+	 * @type {string}
+	 * @readonly
+	 *
+	 * @example <caption>Example usage of eDetailer.clickEvent</caption>
+	 * $('#id').on(eDetailer.clickEvent, function(e) { ... });
+	 *
+	 * @todo Rename this to eDetailer.CLICKEVENT
+	 */
 	eDetailer.clickEvent = "touchend mouseup";
 	// changed from: eDetailer.clickEvent = ("createTouch" in document) ? "touchend" : "click";
 	// as this is now unreliable in chrome (touch events are always on, regardless)
 
 	/**
-	 * <p><strong>Framework Settings</strong></p>
+	 * <h3>Framework Settings</h3>
 	 *
-	 * <p>Note: Do not change these values here, override them in the main
-	 * HTML file to avoid caching issues</p>
+	 * <p>Note: Do not change these values here, override them in
+	 * js/slides.js</p>
 	 *
+	 * @summary Framework Settings
 	 * @class
-	 * @memberOf eDetailer
 	 * @property {boolean} [debug=false]
 	 *   - Whether or not to enable debug console
 	 * @property {boolean} [preload=false]
@@ -70,7 +85,7 @@
 	 * @property {string} [primary="splash"]
 	 *   - Initial slide to load (must be in the sitemap)
 	 * @property {string} [transition="R2L"]
-	 *   - Default page transition for navigation (see eDetailer.PAGE.load)
+	 *   - Default page transition for navigation (see eDetailer.loadPage)
 	 * @property {string} [swipepath="default"]
 	 *   - Default segmentation path
 	 * @property {boolean} [locknav=false]
@@ -89,23 +104,47 @@
 	};
 
 	/**
-	 * <p><strong>Slides JS Loaded</strong></p>
-	 *
 	 * <p>Set eDetailer.SLIDESJS = true; at the end of slides.js or else
 	 * framework will not work (initialization requires this)</p>
+	 *
+	 * @type {boolean}
+	 * @example <caption>Set to true for framework initialization</caption>
+	 * eDetailer.SLIDESJS = true;
+	 *
+	 * @todo change this to be more event based
 	 */
 	eDetailer.SLIDESJS =  false;
 
+	/**
+	 * <p>Prints debug messages to the debug console if debugging is enabled</p>
+	 * <p>See: [eDetailer.SETTINGS.debug]{@link eDetailer.SETTINGS}</p>
+	 *
+	 * @summary Log Messages to the Debug Console
+	 *
+	 * @param {string} msg
+	 *   - Message to send to debug console
+	 *
+	 * @since 1.4.0
+	 */
+	eDetailer.LOG = function(msg)
+	{
+		if(eDetailer.SETTINGS.debug)
+		{
+			$('#console').append(msg + '<br>');
+			$("#console")[0].scrollTop = $("#console")[0].scrollHeight;
+		}
+	}
 
 	/**
-	 * <p><strong>Call Framework Initialization</strong></p>
-	 *
+	 * <p>Loads the sitemap and calls buildMenu, then sets up basic
+	 * touch events and navigation button events</p>
 	 * <p>Looks for slides.js to be loaded (as set by eDetailer.SLIDESJS = true)
 	 * and initializes framework, otherwise delays for 100 ms and retries</p>
-	 * <p>Note: You MUST set eDetailer.SLIDESJS = true at the end of slides.js or
-	 * the framework will not load!</p>
+	 * <p>Note: You <u>MUST</u> set eDetailer.SLIDESJS = true at the end of
+	 * slides.js or the framework will not load!</p>
+	 * <p><em>Called Automatically By Framework - Do not call directly</em></p>
 	 *
-	 * @todo rethink this to be event based
+	 * @summary Call Framework Initialization
 	 */
 	eDetailer.INIT = function()
 	{
@@ -123,14 +162,11 @@
 		}
 	}
 
-
 	/**
-	 * <p><strong>Framework Initialization</strong></p>
-	 *
 	 * <p>Loads the sitemap and calls buildMenu, then sets up basic
 	 * touch events and navigation button events</p>
 	 *
-	 * @todo decouple content generation and let the user do it if they want
+	 * @summary Framework Initialization
 	 */
 	var init = function()
 	{
@@ -259,9 +295,10 @@
 	}
 
 	/**
-	 * <p><strong>Current Page</strong></p>
+	 * <p>Returns the sitemap id of the active page/slide in the
+	 * presentation</p>
 	 *
-	 * <p>Returns the current page ID</p>
+	 * @summary Return the Current Page ID
 	 *
 	 * @return {string} - Current page ID
 	 *
@@ -276,28 +313,30 @@
 /*==[ eDetailer.PAGE ]==============================================================*/
 
 	/**
-	 * <p><strong>Page Object</strong></p>
+	 * <h3>Page Object</h3>
 	 *
 	 * <p>Holds information about the current page and is used as a
 	 * reference template for the page objects within the sitemap JSON</p>
 	 * <p><em>For more information, see sample.sitemap.json</em></p>
 	 *
+	 * @summary Page Controls, Information, and Navigation
+	 *
 	 * @class
-	 * @memberOf eDetailer
+	 * @memberof eDetailer
 	 * @property {string} id
 	 *   - ID used to reference the page (also used for tracking)
-	 * @property title
+	 * @property {string} title
 	 *   - Title of the page (used in navigation and tracking)
-	 * @property type
+	 * @property {string} type
 	 *   - Type of page/sitemap entry [page, hidden, header, button]
-	 * @property [file]
+	 * @property {string} [file]
 	 *   - Path and filename of the source code for the page
-	 * @property [children]
+	 * @property {array} [children]
 	 *   - An array of child page objects
-	 * @property {object} onVisibleCallbacks
-	 *   - Callbacks fired when page is loaded
 	 * @property {object} onLoadCallbacks
 	 *   - Callbacks fired when page is visible
+	 * @property {object} onVisibleCallbacks
+	 *   - Callbacks fired when page is loaded
 	 */
 	eDetailer.PAGE = {
 		"id"                 : '',
@@ -310,10 +349,10 @@
 	};
 
 	/**
-	 * <p><strong>Next Page</strong></p>
-	 *
 	 * <p>Loads the next page in the path if not currently locked and
 	 * additional pages are available and adjusts the current position</p>
+	 *
+	 * @summary Load Next Page
 	 */
 	eDetailer.PAGE.next = function()
 	{
@@ -324,10 +363,10 @@
 	}
 
 	/**
-	 * <p><strong>Previous Page</strong></p>
-	 *
 	 * <p>Loads the previous page in the path if not currently locked and
 	 * earlier pages are available and adjusts the current position</p>
+	 *
+	 * @summary Load Previous Page
 	 */
 	eDetailer.PAGE.prev = function()
 	{
@@ -338,9 +377,10 @@
 	}
 
 	/**
-	 * <p><strong>Lock Page Navigation</strong></p>
+	 * <p>Locks the swiping, and optionally, the navigation menus
+	 * see [eDetailer.SETTINGS.locknav]{@link eDetailer.SETTINGS}</p>
 	 *
-	 * <p>Locks the swiping, and optionally, the navigation menus</p>
+	 * @summary Lock Page Navigation
 	 */
 	eDetailer.PAGE.lock = function()
 	{
@@ -349,9 +389,10 @@
 	}
 
 	/**
-	 * <p><strong>Unlock Page Navigation</strong></p>
+	 * <p>Unlocks the swiping, and optionally, the navigation menus
+	 * see [eDetailer.SETTINGS.locknav]{@link eDetailer.SETTINGS}</p>
 	 *
-	 * <p>Unlocks the swiping, and optionally, the navigation menus</p>
+	 * @summary Unlock Page Navigation
 	 */
 	eDetailer.PAGE.unlock = function()
 	{
@@ -360,9 +401,9 @@
 	}
 
 	/**
-	 * <p><strong>Format Page ID</strong></p>
-	 *
 	 * <p>Takes a given page ID and replaces periods with dashes</p>
+	 *
+	 * @summary Format Page ID
 	 *
 	 * @param {string} id
 	 *   - ID of the page to format
@@ -376,9 +417,9 @@
 	}
 
 	/**
-	 * <p><strong>Get Page Information</strong></p>
-	 *
 	 * <p>Takes a given page ID and returns the page object</p>
+	 *
+	 * @summary Get Page Information
 	 *
 	 * @param {string} page
 	 *   - ID of page to retrieve
@@ -394,14 +435,14 @@
 	}
 
 	/**
-	 * <p><strong>Load a New Page</strong></p>
-	 *
 	 * <p>Takes a given page ID and references the sitemap for page
 	 * information, then loads the page via AJAX off screen (based
 	 * on transition param) and triggers an animation by removing
 	 * the "loading" class.</p>
 	 * <p>After load, a callback is triggered if one exists for the
 	 * requested page.</p>
+	 *
+	 * @summary Load a New Page
 	 *
 	 * @param {string} page
 	 *   - ID of page to load
@@ -565,10 +606,14 @@
 	}
 
 	/**
-	 * <p><strong>Set Page Load Callback</strong></p>
+	 * <p>Adds a callback function to be called when a specific page is loaded
+	 * (this fires immediately, even though the page may not yet be visible).</p>
+	 * <p>If you need the callback to function when the page is visible, use
+	 * [eDetailer.PAGE.onVisible]{@link eDetailer.PAGE.onVisible} instead.</p>
+	 * <p>Note: Setting this will overwrite any previously registered onLoad
+	 * callback for that page</p>
 	 *
-	 * <p>Adds a callback function to be called when a
-	 * specific page is loaded</p>
+	 * @summary Set Page Load Callback
 	 *
 	 * @param {string}   id
 	 *   - Page ID to assign callback
@@ -584,10 +629,14 @@
 	}
 
 	/**
-	 * <p><strong>Set Page Visible Callback</strong></p>
+	 * <p>Adds a callback function to be called when a specific page is visible
+	 * (this fires after a delay, when the page is actually visible).</p>
+	 * <p>If you need the callback to function when the page is loaded, use
+	 * [eDetailer.PAGE.onLoad]{@link eDetailer.PAGE.onLoad} instead.</p>
+	 * <p>Note: Setting this will overwrite any previously registered onVisible
+	 * callback for that page</p>
 	 *
-	 * <p>Adds a callback function to be called when a
-	 * specific page is visible</p>
+	 * @summary Set Page Visible Callback
 	 *
 	 * @param {string}   id
 	 *   - Page ID to assign callback
@@ -606,17 +655,21 @@
 /*==[ eDetailer.SITEMAP ]===========================================================*/
 
 	/**
-	 * <p><strong>Sitemap Object</strong></p>
+	 * <h3>Sitemap Object</h3>
 	 *
+	 * <p>The sitemap object contains information about the pages, navigation
+	 * and defined swipe paths within the eDetail presentation.</p>
 	 * <p>Note: By default this object is empty and is populated on load from
 	 * the sitemap JSON file (js/sitemap.json), only the loaded property is
 	 * included by default.</p>
 	 * <p><em>For more information, see sample.sitemap.json</em></p>
 	 *
+	 * @summary Sitemap Contents, Indexes, and Pathing
+	 *
 	 * @class
-	 * @memberOf eDetailer
+	 * @memberof eDetailer
 	 * @property {boolean} [loaded=false]
-	 *   - <em>Changed</em> to true when the sitemap JSON is loaded
+	 *   - true if the sitemap JSON is loaded
 	 * @property {array} pages
 	 *   - Array of page objects
 	 * @property {array} buttonbar
@@ -624,20 +677,18 @@
 	 * @property {object} paths
 	 *   - Collection of segmentation path arrays (at least one required)
 	 * @property {object} index
-	 *   - <em>Auto-Generated</em> reverse lookup of sitemap entries by ID
-	 * @property {object} callbacks
-	 *   - Callbacks fired when sitemap is loaded (not implemented)
+	 *   - Auto-Generated reverse lookup of sitemap entries by ID
 	 */
 	eDetailer.SITEMAP = {
 		"loaded" : false
 	};
 
 	/**
-	 * <p><strong>Set Segmentation Path</strong></p>
-	 *
 	 * <p>Sets the current segmentation path and adjusts the current
 	 * path position to the proper slide, or a default location in the
 	 * path (usually the start)</p>
+	 *
+	 * @summary Set Segmentation Path
 	 *
 	 * @param {string} path
 	 *   - Name of segmentation path
@@ -666,9 +717,11 @@
 	}
 
 	/**
-	 * <p><strong>Sitemap Indexer</strong></p>
-	 *
 	 * <p>Recursive function to build an index of pages for faster access.</p>
+	 * <p>Note: If pages are added to the sitemap dynamically after the initial
+	 * load, you will need to call this function to rebuild the index.</p>
+	 *
+	 * @summary Sitemap Indexer
 	 *
 	 * @param {array} pages
 	 *   - Array of page objects
@@ -709,15 +762,16 @@
 /*==[ eDetailer.NAV ]===============================================================*/
 
 	/**
-	 * <p><strong>Navigation Object</strong></p>
+	 * <h3>Navigation Object</h3>
 	 *
-	 * <p>Note: By default this object is empty and is populated on load from
-	 * the sitemap JSON file (js/sitemap.json), only the loaded property is
-	 * included by default.</p>
-	 * <p><em>For more information, see sample.sitemap.json</em></p>
+	 * <p>The Navigation object contains functions for building
+	 * presentation navigational elements, as well as controls for
+	 * navigation functionality.</p>
+	 *
+	 * @summary Navigation Controls and Generation
 	 *
 	 * @class
-	 * @memberOf eDetailer
+	 * @memberof eDetailer
 	 * @property {string} active
 	 *   - Currently active page id
 	 */
@@ -726,12 +780,10 @@
 	};
 
 	/**
-	 * <p><strong>Navigation Visibility Toggle</strong></p>
-	 *
 	 * <p>Toggles the open/close state of the navigation based on
 	 * whether the navigation element has a class of "open"</p>
 	 *
-	 * @memberOf eDetailer.NAV
+	 * @summary Navigation Visibility Toggle
 	 */
 	eDetailer.NAV.toggle = function()
 	{
@@ -740,11 +792,9 @@
 	}
 
 	/**
-	 * <p><strong>Navigation Menu Item Toggle</strong></p>
-	 *
 	 * <p>Toggles the open/close state of accordian menu items</p>
 	 *
-	 * @memberOf eDetailer.NAV
+	 * @summary Navigation Menu Item Toggle
 	 */
 	eDetailer.NAV.itemToggle = function(item)
 	{
@@ -760,12 +810,10 @@
 	}
 
 	/**
-	 * <p><strong>Open the Navigation Menu</strong></p>
-	 *
 	 * <p>Adds the class "open" to the navigation menu and the
 	 * class "active" to the navigation button</p>
 	 *
-	 * @memberOf eDetailer.NAV
+	 * @summary Open the Navigation Menu
 	 */
 	eDetailer.NAV.show = function()
 	{
@@ -776,12 +824,10 @@
 	}
 
 	/**
-	 * <p><strong>Close the Navigation Menu</strong></p>
-	 *
 	 * <p>Removes the class "open" from the navigation menu and the
 	 * class "active" from the navigation button</p>
 	 *
-	 * @memberOf eDetailer.NAV
+	 * @summary Close the Navigation Menu
 	 */
 	eDetailer.NAV.hide = function()
 	{
@@ -790,10 +836,10 @@
 	}
 
 	/**
-	 * <p><strong>Menu Builder</strong></p>
-	 *
 	 * <p>Recursive function to build the page menu hierarchies
 	 * based on supplied array of pages. Used for Navigation and ToC</p>
+	 *
+	 * @summary Menu Builder
 	 *
 	 * @param {array} pages
 	 *   - Array of page objects
@@ -873,10 +919,10 @@
 	}
 
 	/**
-	 * <p><strong>Buttonbar Builder</strong></p>
-	 *
 	 * <p>Builds the bottom button bar navigation
 	 * based on supplied array within the sitemap.</p>
+	 *
+	 * @summary Buttonbar Builder
 	 *
 	 * @param {array} button
 	 *   - Array of buttons from the sitemap
@@ -886,7 +932,7 @@
 	 * @return {string}
 	 *   - HTML markup of button bar
 	 *
-	 * @todo This should be unnecessary...
+	 * @todo This should be unnecessary... modify NAV.generate to accomodate
 	 */
 	eDetailer.NAV.buttonBar = function(buttons, prefix)
 	{
@@ -914,9 +960,11 @@
 /*==[ eDetailer.TABS ]==============================================================*/
 
 	/**
-	 * <p><strong>Tab UI Object</strong></p>
+	 * <h3>Tab UI Object</h3>
 	 *
 	 * <p>Encapsulates methods for working with tabbed content areas</p>
+	 *
+	 * @summary Tabbed Content Controls
 	 *
 	 * @class
 	 * @memberOf eDetailer
@@ -924,9 +972,9 @@
 	eDetailer.TABS = {};
 
 	/**
-	 * <p><strong>Show a Selected Tab</strong></p>
-	 *
 	 * <p>Show a specific tab on the active page and hide all others</p>
+	 *
+	 * @summary Show a Selected Tab
 	 *
 	 * @param {string} tab
 	 *   - DOM classname of tab to show
@@ -952,13 +1000,15 @@
 /*==[ eDetailer.LIGHTBOX ]==========================================================*/
 
 	/**
-	 * <p><strong>Lightbox Object</strong></p>
+	 * <h3>Lightbox Object</h3>
 	 *
 	 * <p>Encapsulates methods for loading content, showing, and hiding the
 	 * lightbox.</p>
 	 *
+	 * @summary Lightbox (modal) Controls
+	 *
 	 * @class
-	 * @memberOf eDetailer
+	 * @memberof eDetailer
 	 * @property {object} container
 	 *   - Lightbox DOM element
 	 * @property {object} content
@@ -969,13 +1019,12 @@
 		"content"   : document.getElementById('lb_content')
 	};
 
-
 	/**
-	 * <p><strong>Show Popup</strong></p>
-	 *
 	 * <p>Adds an 'active' class to the lightbox and loads content
 	 * (content can be passed directly, referenced by ID, or called
 	 * via AJAX request)</p>
+	 *
+	 * @summary Show Lightbox
 	 *
 	 * @param {string} content
 	 *   - Popup content, Element ID, or filename
@@ -1028,9 +1077,9 @@
 	}
 
 	/**
-	 * <p><strong>Hide Popup</strong></p>
+	 * <p>Hides active lightbox and overlay</p>
 	 *
-	 * <p>Hides active popups and overlay</p>
+	 * @summary Hide Lightbox
 	 *
 	 * @param {object} [e] Event (such as a click event) to stop bubbling
 	 */
@@ -1044,17 +1093,24 @@
 /*==[ eDetailer.TRACKING ]==========================================================*/
 
 	/**
-	 * <p><strong>Tracking Object</strong></p>
+	 * <h3>Tracking Object</h3>
 	 *
 	 * <p>The tracking class provides a simple interface to the clickstream
-	 * tracking object within irep</p>
+	 * tracking object within the iRep CLM.</p>
+	 * <p>Note: Pages are tracked automatically whenever eDetailer.PAGE.load() is
+	 * called, using information from the sitemap.</p>
+	 *
+	 *
+	 * @summary ClickStream Tracking Controls
 	 *
 	 * @class
-	 * @memberOf eDetailer
+	 * @memberof eDetailer
 	 * @property {array} callbacks
 	 *   - Array of callbacks for tracking results
 	 * @property {object} iframe
 	 *   - DOM iFrame used for making tracking requests
+	 *
+	 * @todo Extend to support other tracking APIs
 	 */
 	eDetailer.TRACKING = {
 		"callbacks" : [],
@@ -1062,9 +1118,9 @@
 	};
 
 	/**
-	 * <p><strong>Submit a tracking request</strong></p>
-	 *
 	 * <p>Make a tracking request with the given information</p>
+	 *
+	 * @summary Submit a tracking request
 	 *
 	 * @param {string} track_type
 	 *   - Type of tracking request (e.g. page_view, video, etc.)
@@ -1099,9 +1155,9 @@
 	}
 
 	/**
-	 * <p><strong>Add a tracking callback</strong></p>
-	 *
 	 * <p>Add a callback to retrieve tracking call results</p>
+	 *
+	 * @summary Add a tracking callback
 	 *
 	 * @param {function} callback
 	 *   - Name of callback function to call
@@ -1115,11 +1171,11 @@
 	}
 
 	/**
-	 * <p><strong>Handle tracking results</strong></p>
-	 *
 	 * <p>Call all registered tracking callbacks and pass tracking results</p>
 	 * <p>The result is a json object passed in by iRep media player this
 	 * can be used to display success/error messages for debugging purposes</p>
+	 *
+	 * @summary Handle tracking results
 	 *
 	 * @param {object} result
 	 *   - JSON object returned by iRep
@@ -1134,25 +1190,6 @@
 			eDetailer.TRACKING.callbacks[i](result);
 		}
 	}
-
-	/**
-	 * <p><strong>Log Messages to the Debug Console</strong></p>
-	 *
-	 * <p>Prints debug messages to the debug console if debugging is enabled</p>
-	 * <p>See: eDetailer.SETTINGS.debug</p>
-	 *
-	 * @param {string} msg
-	 *   - Message to send to debug console
-	 */
-	eDetailer.LOG = function(msg)
-	{
-		if(eDetailer.SETTINGS.debug)
-		{
-			$('#console').append(msg + '<br>');
-			$("#console")[0].scrollTop = $("#console")[0].scrollHeight;
-		}
-	}
-
 
 	/**
 	 * Call init on DOM load

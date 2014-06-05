@@ -20,8 +20,9 @@ eDetailer.SETTINGS.debug     = true;
 
 /**
  * Global variables used across slides
+ * - e.g. state variables
  */
-var patient_selection = "";
+
 
 /**
  * Create Global Interactions on DOM load

@@ -1,138 +1,284 @@
 /**
- * This file describes the structure of the sitemap.json file.
+ * <h3>Sitemap JSON Structure</h3>
+ * <p>This file describes the structure of the sitemap.json file.
  * You may use this as a starting point in creating your own sitemap.json
- * file, but remember to remove all comments. Please note, the sitemap.json
- * file must be VALID JSON, or else the framework will choke,
- */
-
-/**
- * The containing object holds a single member labeled "sitemap".
- * The sitemap object contains three child members.
+ * file, but remember to remove all comments.</p>
  *
- * @property {object} sitemap
- *    Contains sitemap data
- * @property {array} sitemap.pages
- *   Array of page objects (see eDetailer.PAGE)
- * @property {array} sitemap.buttonbar
- *   Array of button objects (same as pages)
- * @property {object} sitemap.paths
- *   Collection of named arrays containing swipe path data
+ * <p>Note: the sitemap.json file must be <strong>VALID JSON</strong>, or
+ * else the framework will not work.</p>
+ *
+ * <p>This JSON Structure contains the following elements:</p>
+ * <ul>
+ * <li>[sitemap]{@link JSON.sitemap}</li>
+ * <li>[sitemap.pages]{@link JSON.sitemap.pages}</li>
+ * <li>[sitemap.buttonbar]{@link JSON.sitemap.buttonbar}</li>
+ * <li>[sitemap.paths]{@link JSON.sitemap.paths}</li>
+ * </ul>
+ *
+ * @author Roger Soucy <roger.soucy@havashealth.com>
+ * @version 1.0.0
+ *
+ * @module
+ * @name JSON
+ * @alias SITEMAP.JSON
+ * @global
  */
-
-{"sitemap" : {
+{ /** @lends JSON */
 
 	/**
-	 * The "pages" array contains any number of nested page objects,
-	 * each of which has the following properties (see eDetailer.PAGE):
+	 * <h3>Sitemap Object</h3>
 	 *
-	 * @property {string} id
-	 *   - ID used to reference the page (also used for tracking)
-	 * @property {string} title
-	 *   - Title of the page (used in navigation and tracking)
-	 * @property {String} type
-	 *   - Type of page/sitemap entry [page, hidden, header, button]
-	 *        page : Normal page/slide, appears in all menus
-	 *        hidden : normal page/slide, but does not appear in menus
-	 *        header : Accordian or Section header, appears in most menus
-	 *        button : Appears in some menus, file content is placed in HREF
-	 * @property {string} [file]
-	 *   - Path and filename of the source code for the page, or HREF
-	 *     content in the case of buttons
-	 * @property {array} [children]
-	 *   - An array of child (nested) page objects, no depth limit
+	 * <p>The "sitemap" object contains three child objects: an array
+	 * of page objects, an array of buttons, and a named array
+	 * (object) of swipe paths.</p>
+	 * <p>The properties and members of this object are added to
+	 * [FW.SITEMAP]{@link FW.SITEMAP}.</p>
+	 *
+	 * @summary Sitemap Object
+	 *
+	 * @class
+	 * @augments FW.SITEMAP
+	 * @memberof JSON
 	 */
+	"sitemap" : {
 
-	"pages" : [
-		{
-			"id"    : "splash",
-			"file"  : "slides/splash.html",
-			"title" : "Splash Page",
-			"type"  : "hidden"
-		},
-		{
-			"id"       : "header.0.0.0",
-			"file"     : "",
-			"title"    : "Section Header",
-			"type"     : "header",
-			"children" : [
-				{
-					"id"    : "slide.0.0.0",
-					"file"  : "slides/slide.0.0.0.html",
-					"title" : "Slide Title",
-					"type"  : "page"
-				}
+		/**
+		 * <p>The "pages" array contains any number of nested page objects,
+		 * each of which has the following properties.</p>
+		 * <p>See [JSON.sitemap.pages.PAGE]{@link JSON.sitemap.pages.PAGE}
+		 * or [FW.PAGE]{@link FW.PAGE}</p>
+		 *
+		 * @summary Array of Presentation Pages
+		 *
+		 * @type {array}
+		 */
+		"pages" : [
+			/**
+			 * <h3>Sitemap.json Page Class</h3>
+			 *
+			 * desc
+			 *
+			 * @summary Sitemap.json Page Class
+			 *
+			 * @class
+			 * @name PAGE
+			 * @memberof JSON.sitemap.pages
+			 *
+			 * @property {string} id
+			 *   - ID used to reference the page (also used for tracking)
+			 * @property {string} title
+			 *   - Title of the page (used in navigation and tracking)
+			 * @property {String} type
+			 *   - Type of page/sitemap entry [page, hidden, header, button]<ul>
+			 *   <li>page : Normal page/slide, appears in all menus</li>
+			 *   <li>hidden : normal page/slide, but does not appear in menus</li>
+			 *   <li>header : Accordian or Section header, appears in most menus</li>
+			 *   <li>button : Appears in some menus, file content is placed in HREF</li></ul>
+			 * @property {string} [file]
+			 *   - Path and filename of the source code for the page, or HREF
+			 *     content in the case of buttons
+			 * @property {array} [children]
+			 *   - An array of child (nested) page objects, no depth limit
+			 *
+			 * @example <caption>Create an accordian menu header</caption>
+			 * {
+			 * 	"id"    : "header.0.0.0",
+			 * 	"file"  : "", // Not necessary as this doesn't link to a page
+			 * 	"title" : "Section Header",
+			 * 	"type"  : "header",
+			 * }
+			 *
+			 * @example <caption>Create a standard page entry (visible in menus)</caption>
+			 * {
+			 * 	"id"    : "slide.0.0.0",
+			 * 	"file"  : "slides/slide.0.0.0.html",
+			 * 	"title" : "Slide Title",
+			 * 	"type"  : "page"
+			 * }
+			 *
+			 * @example <caption>Create a standard page entry with children</caption>
+			 * {
+			 * 	"id"    : "slide.1.0.0",
+			 * 	"file"  : "slides/slide.1.0.0.html",
+			 * 	"title" : "Slide Title",
+			 * 	"type"  : "page",
+			 * 	"children" : [
+			 * 		{
+			 * 			"id"    : "slide.1.1.0",
+			 * 			"file"  : "slides/slide.1.1.0.html",
+			 * 			"title" : "Sub Slide Title",
+			 * 			"type"  : "page"
+			 * 		}
+			 * 	]
+			 * }
+			 *
+			 * @example <caption>Create a hidden page entry (not visible in menus)</caption>
+			 * {
+			 * 	"id"    : "splash",
+			 * 	"file"  : "slides/splash.html",
+			 * 	"title" : "Splash Page",
+			 * 	"type"  : "hidden"
+			 * }
+			 *
+			 * @example <caption>Create a button</caption>
+			 * {
+			 * 	"id"    : "REFS",
+			 * 	"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"title" : "References",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 */
+			{
+				"id"    : "splash",
+				"file"  : "slides/splash.html",
+				"title" : "Splash Page",
+				"type"  : "hidden"
+			},
+			{
+				"id"       : "header.0.0.0",
+				"file"     : "",
+				"title"    : "Section Header",
+				"type"     : "header",
+				"children" : [
+					{
+						"id"    : "slide.0.0.0",
+						"file"  : "slides/slide.0.0.0.html",
+						"title" : "Slide Title",
+						"type"  : "page"
+					}
+				]
+			}
+		],
+
+		/**
+		 * <p>The "buttonbar" array contains any number of button objects</p>
+		 * <p>See [JSON.sitemap.buttonbar.BUTTON]{@link JSON.sitemap.buttonbar.BUTTON}</p>
+		 *
+		 * @summary Button Bar Navigation Elements
+		 *
+		 * @type {array}
+		 */
+		"buttonbar" : [
+
+			/**
+			 * <h3>Sitemap.json Button Class</h3>
+			 *
+			 * desc
+			 *
+			 * @summary Sitemap.json Button Class
+			 *
+			 * @class
+			 * @name BUTTON
+			 * @memberof JSON.sitemap.buttonbar
+			 *
+			 * @property {string} id
+			 *   - ID used to reference the button
+			 * @property {string} [file]
+			 *   - HREF content (path, link, or JavaScript)
+			 * @property {string} title
+			 *   - Title of the button
+			 * @property {string} type
+			 *   - Type of entry [button]<ul>
+			 *   <li>button : Appears in some menus, file content is placed in HREF</li></ul>
+			 *
+			 * @example <caption>Describe a button to load a slide</caption>
+			 * {
+			 * 	"id"    : "Home",
+			 * 	"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+			 * 	"title" : "Home",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example <caption>Describe a button to display a lightbox</caption>
+			 * {
+			 * 	"id"    : "REFS",
+			 * 	"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+			 * 	"title" : "References",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example <caption>Describe a button to load a local file</caption>
+			 * {
+			 * 	"id"    : "PI",
+			 * 	"file"  : "pdfs/prescribing_information.pdf",
+			 * 	"title" : "Prescribing Information",
+			 * 	"type"  : "button"
+			 * }
+			 *
+			 * @example <caption>Describe a button to load an external site</caption>
+			 * {
+			 * 	"id"    : "example_com",
+			 * 	"file"  : "http://www.example.com",
+			 * 	"title" : "example.com",
+			 * 	"type"  : "button"
+			 * }
+			 */
+			{
+				"id"    : "Home",
+				"file"  : "javascript:FW.PAGE.load('slide.0.0.0', 'B2T');",
+				"title" : "Home",
+				"type"  : "button"
+			},
+			{
+				"id"    : "PI",
+				"file"  : "pdfs/prescribing_information.pdf",
+				"title" : "Prescribing Information",
+				"type"  : "button"
+			},
+			{
+				"id"    : "MedGuide",
+				"file"  : "pdfs/medication_guide.pdf",
+				"title" : "Medication Guide",
+				"type"  : "button"
+			},
+			{
+				"id"    : "ISI",
+				"file"  : "javascript:FW.LIGHTBOX.show('popups/isi.html', 'ajax');",
+				"title" : "Important Safety Information",
+				"type"  : "button"
+			},
+			{
+				"id"    : "REFS",
+				"file"  : "javascript:FW.LIGHTBOX.show('popups/refs.html', 'ajax');",
+				"title" : "References",
+				"type"  : "button"
+			}
+		],
+
+		/**
+		 * <h3>Sitemap.json Paths Class</h3>
+		 *
+		 * <p>The "paths" object contains any number of named path arrays,
+		 * each of which lists (in order) a list of page IDs making a swipe
+		 * navigation path.</p>
+		 *
+		 * <p>"default" path is required, but the name may be changed via
+		 * [FW.SETTINGS.primary]{@link FW.SETTINGS.primary}</p>
+		 *
+		 * @summary Named Array (object) of Swipe Paths
+		 *
+		 * @class
+		 * @memberof JSON.sitemap
+		 *
+		 * @property {array} default
+		 *   - Primary swipe path
+		 * @property {array} [&lt;name&gt;]
+		 *   - Additional named swipe paths
+		 */
+
+		"paths" : {
+			"default"   : [
+				"slide.0.0.0","slide.1.0.0","slide.1.1.0","slide.1.2.0",
+				"slide.1.3.0","slide.2.0.0","slide.2.1.0","slide.2.2.0",
+				"slide.3.0.0","slide.3.1.0","slide.3.2.0","slide.3.3.0",
+				"slide.3.4.0","slide.4.0.0","slide.4.1.0","slide.4.2.0",
+				"slide.5.0.0","slide.5.1.0","slide.6.0.0"
+			],
+			"segment_1" : [
+				"slide.0.0.0","slide.0.2.0","slide.5.0.0","slide.1.0.0",
+				"slide.1.2.0","slide.3.0.0"
 			]
 		}
-	],
-
-	/**
-	 * The "buttonbar" array contains any number of button objects,
-	 * each of which has the following properties (see eDetailer.PAGE):
-	 *
-	 * @property {string} id
-	 *   - ID used to reference the button
-	 * @property {string} title
-	 *   - Title of the button
-	 * @property {string} type
-	 *   - Type of entry [button]
-	 *        button : Appears in some menus, file content is placed in HREF
-	 * @property {string} [file]
-	 *   - HREF content (path, link, or JavaScript)
-	 */
-
-	"buttonbar" : [
-		{
-			"id"    : "Home",
-			"file"  : "javascript:eDetailer.PAGE.load('slide.0.0.0', 'B2T');",
-			"title" : "Home",
-			"type"  : "button"
-		},
-		{
-			"id"    : "PI",
-			"file"  : "pdfs/prescribing_information.pdf",
-			"title" : "Prescribing Information",
-			"type"  : "button"
-		},
-		{
-			"id"    : "MedGuide",
-			"file"  : "pdfs/medication_guide.pdf",
-			"title" : "Medication Guide",
-			"type"  : "button"
-		},
-		{
-			"id"    : "ISI",
-			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/isi.html', 'ajax');",
-			"title" : "Important Safety Information",
-			"type"  : "button"
-		},
-		{
-			"id"    : "REFS",
-			"file"  : "javascript:eDetailer.LIGHTBOX.show('popups/refs.html', 'ajax');",
-			"title" : "References",
-			"type"  : "button"
-		}
-	],
-
-	/**
-	 * The "paths" object contains any number of named path arrays,
-	 * each of which lists (in order) a list of page IDs making a swipe
-	 * navigation path
-	 *
-	 * "default" path is required, but the name may be changed via eDetailer.SETTINGS
-	 */
-
-	"paths" : {
-		"default"   : [
-			"slide.0.0.0","slide.1.0.0","slide.1.1.0","slide.1.2.0",
-			"slide.1.3.0","slide.2.0.0","slide.2.1.0","slide.2.2.0",
-			"slide.3.0.0","slide.3.1.0","slide.3.2.0","slide.3.3.0",
-			"slide.3.4.0","slide.4.0.0","slide.4.1.0","slide.4.2.0",
-			"slide.5.0.0","slide.5.1.0","slide.6.0.0"
-		],
-		"segment_1" : [
-			"slide.0.0.0","slide.0.2.0","slide.5.0.0","slide.1.0.0",
-			"slide.1.2.0","slide.3.0.0"
-		]
 	}
-
-}}
+}
